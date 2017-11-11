@@ -6,7 +6,19 @@
         xmlns:local="clr-namespace:VsIncludeEditor"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <local:MainWindowViewModel x:Name="vm"/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="28"/>
+        </Grid.RowDefinitions>       
+        <ContentPresenter Grid.Row="0" Name="cntHead" Content="{Binding TopPanelControl}"/>
+        <ContentPresenter Grid.Row="1" Name="cntBody" Content="{Binding CenterPanelControl}"/>
+        <DockPanel Grid.Row="2" Name="cntFoot">
+            
+        </DockPanel>
     </Grid>
 </Window>

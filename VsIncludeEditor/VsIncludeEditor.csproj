@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,6 +55,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Models\ContentModel.cs" />
+    <Compile Include="Models\ISelectable.cs" />
+    <Compile Include="Models\ReferenceModel.cs" />
+    <Compile Include="Modules\TreeView\FileNode.cs" />
+    <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
+      <DependentUpon>IncludeEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\IncludeEditor\IncludeEditorViewModel.cs" />
+    <Compile Include="Modules\TopPanel\Commands.cs" />
+    <Compile Include="Modules\TopPanel\TopPanelView.xaml.cs">
+      <DependentUpon>TopPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TopPanel\TopPanelViewModel.cs" />
+    <Compile Include="Modules\TreeView\FolderNode.cs" />
+    <Compile Include="Modules\TreeView\TreeNode.cs" />
+    <Compile Include="Modules\TreeView\TreeParser.cs" />
+    <Compile Include="Modules\TreeView\TreeViewControl.xaml.cs">
+      <DependentUpon>TreeViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ExeParser.cs" />
+    <Compile Include="Services\IContentParserService.cs" />
+    <Compile Include="Services\ProjParserService.cs" />
+    <Compile Include="Services\WebProjectParser.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,6 +93,30 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\IncludeEditor\IncludeEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\TopPanel\TopPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\TreeView\TreeViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionarys\Images.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionarys\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionarys\ViewModels.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -92,6 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\folder_red.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\doc.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

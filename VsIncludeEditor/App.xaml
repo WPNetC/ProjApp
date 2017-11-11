@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:VsIncludeEditor"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionarys/Images.xaml"/>
+                <ResourceDictionary Source="ResourceDictionarys/Styles.xaml"/>
+                <ResourceDictionary Source="ResourceDictionarys/ViewModels.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>
