@@ -33,20 +33,16 @@ namespace VsIncludeEditor.Services
             return itemGroups;
         }
 
-        private IEnumerable<XmlNode> GetNodesOfName(string csprojPath, string name)
+        private List<XmlNode> GetNodesOfName(string csprojPath)
         {
             if (!csprojPath.ToLower().EndsWith("csproj") || !File.Exists(csprojPath))
-                yield break;
+                return null;
 
-            // Step through each item group.
-            foreach (XmlNode itemGroup in GetNodes(csprojPath))
-            {
-                // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes || itemGroup.ChildNodes[0].Name.ToUpperInvariant() != name.ToUpperInvariant())
-                    continue;
+            var nodes = GetNodes(csprojPath);
+            if (_parser == null)
+                return null;
 
-                yield return itemGroup;
-            }
+            return _parser.GetContentNodes(nodes);
         }
 
 
@@ -91,36 +87,10 @@ namespace VsIncludeEditor.Services
 
         public IEnumerable<ContentModel> GetContentIncludes(string csprojPath)
         {
-            // Step through each item group.
-            foreach (XmlNode itemGroup in GetNodesOfName(csprojPath, CSPROJ_CONTENT))
-            {
-                // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes)
-                    continue;
-
-                foreach (XmlNode item in itemGroup.ChildNodes)
-                {
-                    var refObj = new ContentModel
-                    {
-                        Include = item.Attributes[CSPROJ_INCLUDE]?.Value
-                    };
-
-                    if (item.HasChildNodes)
-                    {
-                        foreach (XmlNode property in item.ChildNodes)
-                        {
-                            if (property.Name == "SubType")
-                                refObj.SubType = property.InnerText;
-                            else if (property.Name == "DependentUpon")
-                                refObj.DependentUpon = property.InnerText;
-                            else if (property.Name != "#text")
-                                throw new InvalidOperationException($"Invalid type: {property.Name}");
-                        }
-                    }
-
-                    yield return refObj;
-                }
-            }
+            var nodes = GetNodesOfName(csprojPath);
+            if (_parser == null || nodes == null)
+                return null;
+            return _parser.GetContentIncludes(nodes);
         }
 
         public List<TreeNode> GetContentAsTree(string csprojPath)

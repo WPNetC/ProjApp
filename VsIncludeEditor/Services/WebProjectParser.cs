@@ -11,7 +11,23 @@ namespace VsIncludeEditor.Services
 {
     public class WebProjectParser : IContentParserService
     {
-        public IEnumerable<ContentModel> GetContentIncludes(XmlNodeList itemGroups)
+        public List<XmlNode> GetContentNodes(XmlNodeList nodes)
+        {
+            var name = CSPROJ_CONTENT;
+            var result = new List<XmlNode>();
+            foreach (XmlNode itemGroup in nodes)
+            {
+                // Skip if not of correct type or an empty collection.
+                if (!itemGroup.HasChildNodes || itemGroup.ChildNodes[0].Name.ToUpperInvariant() != name.ToUpperInvariant())
+                    continue;
+
+                result.Add(itemGroup);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<ContentModel> GetContentIncludes(IEnumerable<XmlNode> itemGroups)
         {
             // Step through each item group.
             foreach (XmlNode itemGroup in itemGroups)
@@ -33,6 +49,8 @@ namespace VsIncludeEditor.Services
                         {
                             if (property.Name == "SubType")
                                 refObj.SubType = property.InnerText;
+                            else if (property.Name == "DependentUpon")
+                                refObj.DependentUpon = property.InnerText;
                             else if (property.Name != "#text")
                                 throw new InvalidOperationException($"Invalid type: {property.Name}");
                         }
@@ -41,13 +59,6 @@ namespace VsIncludeEditor.Services
                     yield return refObj;
                 }
             }
-        }
-
-        public List<TreeNode> GetContentAsTree(XmlNodeList itemGroups)
-        {
-            var includes = GetContentIncludes(itemGroups).Select(p => p.Include).ToArray();
-            return TreeParser.GetContentAsTree(includes);
-
         }
     }
 }

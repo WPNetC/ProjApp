@@ -19,7 +19,7 @@ namespace VsIncludeEditor.Modules.TreeView
         public string FullPath { get; set; }
         public TreeNode Parent { get; set; }
         public List<TreeNode> Children { get; set; }
-        public bool? IsSelected { get; set; }
+        public bool IsSelected { get; set; }
 
         public override bool Equals(object obj)
         {

@@ -7,7 +7,7 @@ namespace VsIncludeEditor.Services
 {
     public interface IContentParserService
     {
-        IEnumerable<ContentModel> GetContentIncludes(XmlNodeList itemGroups);
-        List<TreeNode> GetContentAsTree(XmlNodeList itemGroups);
+        List<XmlNode> GetContentNodes(XmlNodeList nodes);
+        IEnumerable<ContentModel> GetContentIncludes(IEnumerable<XmlNode> itemGroups);
     }
 }
