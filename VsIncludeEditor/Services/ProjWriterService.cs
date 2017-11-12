@@ -33,7 +33,11 @@ namespace VsIncludeEditor.Services
                     node.ParentNode.RemoveChild(node);
             }
 
-            xmlDoc.Save("C:\\Test\\test.xml");
+            var bakPath = $"{csprojFile.FullName}.bak";
+            if (File.Exists(bakPath))
+                File.Delete(bakPath);
+            File.Copy(csprojFile.FullName, bakPath);
+            xmlDoc.Save(csprojFile.FullName);
         }
     }
 }
