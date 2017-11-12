@@ -37,9 +37,7 @@ namespace VsIncludeEditor.Modules.TreeView
         // Using a DependencyProperty as the backing store for list.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NodesProperty =
             DependencyProperty.Register("Nodes", typeof(ICollection<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(null));
-
-
-
+        
         public TreeNode SelectedNode
         {
             get { return (TreeNode)GetValue(SelectedNodeProperty); }
@@ -49,9 +47,7 @@ namespace VsIncludeEditor.Modules.TreeView
         // Using a DependencyProperty as the backing store for treeNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedNodeProperty =
             DependencyProperty.Register("SelectedNode", typeof(TreeNode), typeof(ListTreeControl), new PropertyMetadata(null));
-
-
-
+        
         public ObservableCollection<TreeNode> SelectedNodes
         {
             get
@@ -64,9 +60,7 @@ namespace VsIncludeEditor.Modules.TreeView
         // Using a DependencyProperty as the backing store for SelectedNodes.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedNodesProperty =
             DependencyProperty.Register("SelectedNodes", typeof(ObservableCollection<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(new ObservableCollection<TreeNode>()));
-
-
-
+        
         public int SelectedCount
         {
             get { return (int)GetValue(SelectedCountProperty); }
@@ -76,10 +70,7 @@ namespace VsIncludeEditor.Modules.TreeView
         // Using a DependencyProperty as the backing store for SelectedCount.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedCountProperty =
             DependencyProperty.Register("SelectedCount", typeof(int), typeof(ListTreeControl), new PropertyMetadata(0));
-
-
-
-
+        
         private void lsbIncludes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var node = lsbIncludes.SelectedItem as TreeNode;
@@ -89,7 +80,6 @@ namespace VsIncludeEditor.Modules.TreeView
             SelectedNode = node;
         }
 
-        private delegate void CheckboxDelegate(object sender, RoutedEventArgs e);
         private async void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var nodeCb = e.Source as CheckBox;
@@ -155,12 +145,14 @@ namespace VsIncludeEditor.Modules.TreeView
             SelectedNodes.Clear();
         }
 
+        // Delegate methods
+        private delegate void CheckboxDelegate(object sender, RoutedEventArgs e);
+        private delegate void TreeNodeDelegate(TreeNode node);
 
         private void UpdateCount()
         {
             SelectedCount = SelectedNodes.Count();
         }
-        private delegate void TreeNodeDelegate(TreeNode node);
         private void SetSelectedNode(TreeNode node)
         {
             SelectedNode = node;

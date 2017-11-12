@@ -23,21 +23,26 @@
                             Nodes="{Binding Tree}"
                             SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SelectedNodes="{Binding SelectedNodes, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
-        
-        <StackPanel Grid.Column="2">
-            <DockPanel LastChildFill="False">
+
+        <DockPanel Grid.Column="2">
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                 <TextBlock DockPanel.Dock="Left" Text="{Binding SelectedNodes.Count, FallbackValue=0}"/>
                 <Button DockPanel.Dock="Right" Content="Exclude" Command="{Binding CmdExcludeSelected}"/>
             </DockPanel>
-                <ListView ItemsSource="{Binding SelectedNodes}" Margin="5">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Converter={local:TreeToNameConverter}}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-        </StackPanel>
+            <ScrollViewer DockPanel.Dock="Bottom">
+            <ListBox ItemsSource="{Binding SelectedNodes}"
+                     VirtualizingPanel.IsVirtualizing="True"
+                     VirtualizingPanel.VirtualizationMode="Recycling"
+                     Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Converter={local:TreeToNameConverter}}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </UserControl>

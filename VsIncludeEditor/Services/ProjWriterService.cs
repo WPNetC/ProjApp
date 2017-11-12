@@ -22,16 +22,7 @@ namespace VsIncludeEditor.Services
             xmlDoc.LoadXml(origText);
             
             var toExclude = includes.Select(p => p.Include).ToArray();
-
-            //foreach (var item in toExclude)
-            //{
-            //    var exNodes = xmlDoc.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include='{item}']");
-            //    foreach (XmlNode exNode in exNodes)
-            //    {
-            //        exNode.ParentNode.RemoveChild(exNode);
-            //    }
-            //}
-
+            
             var exNodes = xmlDoc.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include]");
             var cnt = exNodes.Count;
 
