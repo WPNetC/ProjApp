@@ -18,10 +18,12 @@ namespace VsIncludeEditor.Services
             var text = File.ReadAllText(csprojPath);
             var xml = new XmlDocument();
             xml.LoadXml(text);
-            var itemGroups = xml.DocumentElement.GetElementsByTagName(CSPROJ_ITEMGROUP);
+
+            // Get all nodes with an 'Include' attribute
+            var itemGroups = xml.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include]");
 
             var projType = xml.DocumentElement.GetElementsByTagName(CSPROJ_PROJECTTYPE)[0]?.InnerText;
-            if (projType.ToLower().Contains(CSPROJ_WEB_GUID))
+            if (projType?.ToLower().Contains(CSPROJ_WEB_GUID) == true)
             {
                 _parser = new WebProjectParser();
             }

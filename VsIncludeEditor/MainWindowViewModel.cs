@@ -19,7 +19,6 @@ namespace VsIncludeEditor
         private UserControl _footPanelControl;
         private UserControl _centerPanelControl;
         private FileInfo _currentSelectedProject;
-        private IContentParserService _parser;
 
         public ObservableCollection<UserControl> UserControls
         {
@@ -92,12 +91,16 @@ namespace VsIncludeEditor
 
             if (CenterPanelControl is IncludeEditorView)
             {
-                var parser = new ProjParserService();
-                var refs = parser.GetContentIncludes(_currentSelectedProject.FullName).ToList();
-                ((IncludeEditorViewModel)CenterPanelControl.DataContext)?.SetIncludes(refs);
+                var vm = CenterPanelControl.DataContext as IncludeEditorViewModel;
 
+                var parser = new ProjParserService();
+
+                //var refs = parser.GetContentIncludes(_currentSelectedProject.FullName).ToList();
                 var tree = parser.GetContentAsTree(_currentSelectedProject.FullName);
-                ((IncludeEditorViewModel)CenterPanelControl.DataContext)?.SetTree(tree);
+
+                //vm?.SetIncludes(refs);
+                vm?.SetTree(tree);
+                vm?.SetCurrentCsProjFile(_currentSelectedProject);
 
             }
         }

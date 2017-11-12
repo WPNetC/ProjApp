@@ -2,8 +2,9 @@
 
 namespace VsIncludeEditor.Models
 {
-    public interface ISelectable : INotifyPropertyChanged
+    public interface IInclude : INotifyPropertyChanged
     {
+        string Include { get; set; }
         bool IsSelected { get; set; }
     }
 }

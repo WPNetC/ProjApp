@@ -16,11 +16,7 @@ namespace VsIncludeEditor.Services
             var result = new List<XmlNode>();
             foreach (XmlNode itemGroup in nodes)
             {
-                // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes)
-                    continue;
-
-                if(CSPROJ_GEN_INCLUDE_TAGS.Contains(itemGroup.ChildNodes[0].Name))
+                if (CSPROJ_GEN_INCLUDE_TAGS.Contains(itemGroup.Name) || CSPROJ_EXE_INCLUDE_TAGS.Contains(itemGroup.Name))
                     result.Add(itemGroup);
             }
 
@@ -30,34 +26,28 @@ namespace VsIncludeEditor.Services
         public IEnumerable<ContentModel> GetContentIncludes(IEnumerable<XmlNode> itemGroups)
         {
             // Step through each item group.
-            foreach (XmlNode itemGroup in itemGroups)
+            foreach (XmlNode item in itemGroups)
             {
-                // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes)
-                    continue;
-
-                foreach (XmlNode item in itemGroup.ChildNodes)
+                var refObj = new ContentModel
                 {
-                    var refObj = new ContentModel
-                    {
-                        Include = item.Attributes[CSPROJ_INCLUDE]?.Value
-                    };
+                    Include = item.Attributes[CSPROJ_INCLUDE]?.Value
+                };
 
-                    if (item.HasChildNodes)
+                if (item.HasChildNodes)
+                {
+                    foreach (XmlNode property in item.ChildNodes)
                     {
-                        foreach (XmlNode property in item.ChildNodes)
-                        {
-                            if (property.Name == "SubType")
-                                refObj.SubType = property.InnerText;
-                            else if (property.Name == "DependentUpon")
-                                refObj.DependentUpon = property.InnerText;
-                            else if (property.Name != "#text")
-                                throw new InvalidOperationException($"Invalid type: {property.Name}");
-                        }
+                        if (property.Name == "SubType")
+                            refObj.SubType = property.InnerText;
+                        else if (property.Name == "DependentUpon")
+                            refObj.DependentUpon = property.InnerText;
+                        else if (property.Name != "#text")
+                            throw new InvalidOperationException($"Invalid type: {property.Name}");
                     }
-
-                    yield return refObj;
                 }
+
+                yield return refObj;
+
             }
         }
     }

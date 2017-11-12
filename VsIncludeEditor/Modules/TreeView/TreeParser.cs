@@ -40,7 +40,7 @@ namespace VsIncludeEditor.Modules.TreeView
                         var childNode = parentNode.Children.FirstOrDefault(p => p.Name == childName);
                         if (childNode == null)
                         {
-                            if (isFile) //(childName.Split('.').Length == 2)
+                            if (isFile)
                             {
                                 childNode = new FileNode(childName, item) { FullPath = childPath };
                             }

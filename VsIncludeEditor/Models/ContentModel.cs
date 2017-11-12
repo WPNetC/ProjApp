@@ -2,7 +2,7 @@
 
 namespace VsIncludeEditor.Models
 {
-    public struct ContentModel : ISelectable
+    public struct ContentModel : IInclude
     {
 
         public string AutoGen { get; set; }
@@ -11,6 +11,7 @@ namespace VsIncludeEditor.Models
         public string Generator { get; set; }
         public string Include { get; set; }
         public string LastGenOutput { get; set; }
+        public string Link { get; set; }
         public string SubType { get; set; }
         public string DependentUpon { get; set; }
 

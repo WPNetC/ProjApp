@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,17 +51,17 @@ namespace VsIncludeEditor.Modules.TreeView
 
 
 
-        public HashSet<TreeNode> SelectedNodes
+        public ObservableCollection<TreeNode> SelectedNodes
         {
             get {
-                return (HashSet<TreeNode>)GetValue(SelectedNodesProperty);
+                return (ObservableCollection<TreeNode>)GetValue(SelectedNodesProperty);
             }
             set { SetValue(SelectedNodesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedNodes.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedNodesProperty =
-            DependencyProperty.Register("SelectedNodes", typeof(HashSet<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(new HashSet<TreeNode>()));
+            DependencyProperty.Register("SelectedNodes", typeof(ObservableCollection<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(new ObservableCollection<TreeNode>()));
 
 
 
@@ -94,7 +95,10 @@ namespace VsIncludeEditor.Modules.TreeView
                 return;
 
             SelectedNode = node;
-            SelectedNodes.Add(SelectedNode);
+
+            if(!SelectedNodes.Contains(SelectedNode))
+                SelectedNodes.Add(SelectedNode);
+
             if (node is FolderNode)
             {
                 foreach (var item in SelectedNode.Descendents)
@@ -102,7 +106,9 @@ namespace VsIncludeEditor.Modules.TreeView
                     if (!item.IsSelected)
                     {
                         item.IsSelected = true;
-                        SelectedNodes.Add(item);
+
+                        if (!SelectedNodes.Contains(item))
+                            SelectedNodes.Add(item);
                     }
                 }
             }

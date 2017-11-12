@@ -55,12 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseConverter.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
-    <Compile Include="Models\ISelectable.cs" />
+    <Compile Include="Models\IInclude.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
     <Compile Include="Modules\IncludeEditor\Commands.cs" />
+    <Compile Include="Modules\IncludeEditor\Converters.cs" />
     <Compile Include="Modules\TreeView\FileNode.cs" />
     <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
       <DependentUpon>IncludeEditorView.xaml</DependentUpon>
@@ -83,6 +85,7 @@
     <Compile Include="Services\ExeParser.cs" />
     <Compile Include="Services\IContentParserService.cs" />
     <Compile Include="Services\ProjParserService.cs" />
+    <Compile Include="Services\ProjWriterService.cs" />
     <Compile Include="Services\WebProjectParser.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">

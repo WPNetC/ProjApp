@@ -7,6 +7,6 @@ namespace VsIncludeEditor.Modules.TreeView
     {
         public FolderNode() : base() { }
         public FolderNode(string name) : base(name) { }
-        public FolderNode(string name, ISelectable model) : base(name, model) { }
+        public FolderNode(string name, IInclude model) : base(name, model) { }
     }
 }

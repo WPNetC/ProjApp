@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace VsIncludeEditor.Models
 {
-    public struct ReferenceModel: ISelectable
+    public struct ReferenceModel: IInclude
     {
         public string Include { get; set; }
         public string SpecificVersion { get; set; }

@@ -21,14 +21,23 @@
 
         <tr:ListTreeControl Grid.Column="0"
                             Nodes="{Binding Tree}"
-                            SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-        <tr:TreeViewControl Grid.Column="1"
-                            Nodes="{Binding Tree}"
-                            SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
+                            SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedNodes="{Binding SelectedNodes, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+        
         <StackPanel Grid.Column="2">
-            <TextBlock Text="{Binding SelectedNode.Name, FallbackValue=Nothing}"/>
+            <DockPanel LastChildFill="False">
+                <TextBlock DockPanel.Dock="Left" Text="{Binding SelectedNodes.Count, FallbackValue=0}"/>
+                <Button DockPanel.Dock="Right" Content="Exclude" Command="{Binding CmdExcludeSelected}"/>
+            </DockPanel>
+                <ListView ItemsSource="{Binding SelectedNodes}" Margin="5">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Converter={local:TreeToNameConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
         </StackPanel>
     </Grid>
 </UserControl>

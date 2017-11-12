@@ -1,7 +1,18 @@
-﻿namespace VsIncludeEditor
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace VsIncludeEditor
 {
     public static class Constants
     {
+        //Regex
+        public const string RGX_CONTENT = @"<Content[\s\S]*?(</Content >|/>)";
+        public const string RGX_INCLUDE = "Include=\"[\\s\\S] *? \"";
+        public const string RGX_REFERENCE = @"<Reference[\s\S]*?</Reference>";
+
+        // .csproj Identifiers
         public const string CSPROJ_PROJECTTYPE = "ProjectTypeGuids";
         public const string CSPROJ_WEB_GUID = "{349c5851-65df-11da-9384-00065b846f21}";
         public const string CSPROJ_WPF_GUID = "{60dc8134-eba5-43b8-bcc9-bb4bc16c2548}";
@@ -33,6 +44,6 @@
                 CSPROJ_CONTENT,
                 CSPROJ_FOLDER,
                 CSPROJ_NONE
-            };
+            };        
     }
 }

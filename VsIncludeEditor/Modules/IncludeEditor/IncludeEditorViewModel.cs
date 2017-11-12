@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using VsIncludeEditor.Models;
 using VsIncludeEditor.Modules.TreeView;
+using VsIncludeEditor.Services;
 
 namespace VsIncludeEditor.Modules.IncludeEditor
 {
@@ -16,9 +20,13 @@ namespace VsIncludeEditor.Modules.IncludeEditor
         private readonly object _imgLock = new object();
         private ObservableCollection<ContentModel> _includes;
         private ObservableCollection<TreeNode> _tree;
+        private ObservableCollection<TreeNode> _selectedNodes;
         private ContentModel _selectedIncludes;
         private TreeNode _selectedNode;
+        private UserControl _treeView;
         private ICommand _cmdToggleGroup;
+        private ICommand _cmdExcludeSelected;
+        private FileInfo _currentCsprojFile;
 
         public ObservableCollection<ContentModel> Includes
         {
@@ -92,6 +100,46 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
         }
 
+        public ObservableCollection<TreeNode> SelectedNodes
+        {
+            get
+            {
+                if (_selectedNodes == null)
+                    _selectedNodes = new ObservableCollection<TreeNode>();
+                return _selectedNodes;
+            }
+            set
+            {
+                if (value != _selectedNodes)
+                {
+                    _selectedNodes = value;
+                    OnChanged();
+                }
+            }
+        }
+
+
+        public UserControl TreeView
+        {
+            get
+            {
+                if(_treeView == null)
+                {
+                    _treeView = new TreeView.ListTreeControl();
+
+                }
+                return _treeView;
+            }
+            private set
+            {
+                if(value != _treeView)
+                {
+                    _treeView = value;
+                    OnChanged();
+                }
+            }
+        }
+
         public ICommand CmdToggleGroup
         {
             get
@@ -99,6 +147,15 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 if (_cmdToggleGroup == null)
                     _cmdToggleGroup = new ToggleGroupSelect(this);
                 return _cmdToggleGroup;
+            }
+        }
+        public ICommand CmdExcludeSelected
+        {
+            get
+            {
+                if (_cmdExcludeSelected == null)
+                    _cmdExcludeSelected = new ExcludeSelected(this);
+                return _cmdExcludeSelected;
             }
         }
 
@@ -120,9 +177,28 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
         }
 
+        public void SetCurrentCsProjFile(FileInfo file)
+        {
+            _currentCsprojFile = file;
+        }
+
         internal void ToggleGroupSelect()
         {
             throw new NotImplementedException();
+        }
+
+        internal void ExcludeSelected()
+        {
+            if (!SelectedNodes.Any() || _currentCsprojFile == null)
+                return;
+
+            var content = SelectedNodes
+                .Where(n => n.NodeModel != null)
+                .Select(p => p.NodeModel)
+                .ToArray();
+
+            var writer = new ProjWriterService();
+            writer.WriteExclusions(content, _currentCsprojFile);
         }
 
     }

@@ -21,7 +21,7 @@ namespace VsIncludeEditor.Modules.TreeView
         {
             Name = name;
         }
-        public TreeNode(string name, ISelectable model) : this(name)
+        public TreeNode(string name, IInclude model) : this(name)
         {
             NodeModel = model;
         }
@@ -86,7 +86,7 @@ namespace VsIncludeEditor.Modules.TreeView
                 }
             }
         }
-        public ISelectable NodeModel { get; set; }
+        public IInclude NodeModel { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

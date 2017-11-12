@@ -19,11 +19,11 @@
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
             </DockPanel.Resources>
-            <Button Content="Clear Selection" Click="Button_Click"/>
-            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-            <TextBlock Text="Selected Nodes: "/>
-            <TextBlock Text="{Binding SelectedCount}"/>
-        </StackPanel>
+            <Button DockPanel.Dock="Left" Content="Clear" Click="Button_Click" Style="{StaticResource Blue_Background}"/>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Selected Nodes: "/>
+                <TextBlock Text="{Binding SelectedCount}"/>
+            </StackPanel>
         </DockPanel>
         <ListBox Grid.Row="1"
                  x:Name="lsbIncludes"
