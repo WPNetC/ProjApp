@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace VsIncludeEditor.Modules.TreeView
 {
     /// <summary>
-    /// Interaction logic for TreeViewControl.xaml
+    /// Interaction logic for ListTreeControl.xaml
     /// </summary>
-    public partial class TreeViewControl : UserControl
+    public partial class ListTreeControl : UserControl
     {
-        public TreeViewControl()
+        public ListTreeControl()
         {
             InitializeComponent();
-            trvIncludes.DataContext = this;
+            grdWrapper.DataContext = this;
         }
 
         public ICollection<TreeNode> Nodes
@@ -34,7 +34,7 @@ namespace VsIncludeEditor.Modules.TreeView
 
         // Using a DependencyProperty as the backing store for list.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NodesProperty =
-            DependencyProperty.Register("Nodes", typeof(ICollection<TreeNode>), typeof(TreeViewControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Nodes", typeof(ICollection<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(null));
 
 
 
@@ -46,12 +46,13 @@ namespace VsIncludeEditor.Modules.TreeView
 
         // Using a DependencyProperty as the backing store for treeNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedNodeProperty =
-            DependencyProperty.Register("SelectedNode", typeof(TreeNode), typeof(TreeViewControl), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectedNode", typeof(TreeNode), typeof(ListTreeControl), new PropertyMetadata(null));
+
+
 
         public HashSet<TreeNode> SelectedNodes
         {
-            get
-            {
+            get {
                 return (HashSet<TreeNode>)GetValue(SelectedNodesProperty);
             }
             set { SetValue(SelectedNodesProperty, value); }
@@ -59,7 +60,7 @@ namespace VsIncludeEditor.Modules.TreeView
 
         // Using a DependencyProperty as the backing store for SelectedNodes.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedNodesProperty =
-            DependencyProperty.Register("SelectedNodes", typeof(HashSet<TreeNode>), typeof(TreeViewControl), new PropertyMetadata(new HashSet<TreeNode>()));
+            DependencyProperty.Register("SelectedNodes", typeof(HashSet<TreeNode>), typeof(ListTreeControl), new PropertyMetadata(new HashSet<TreeNode>()));
 
 
 
@@ -71,8 +72,19 @@ namespace VsIncludeEditor.Modules.TreeView
 
         // Using a DependencyProperty as the backing store for SelectedCount.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedCountProperty =
-            DependencyProperty.Register("SelectedCount", typeof(int), typeof(TreeViewControl), new PropertyMetadata(0));
-        
+            DependencyProperty.Register("SelectedCount", typeof(int), typeof(ListTreeControl), new PropertyMetadata(0));
+
+
+
+
+        private void lsbIncludes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var node = lsbIncludes.SelectedItem as TreeNode;
+            if (node == null)
+                return;
+
+            SelectedNode = node;
+        }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -133,15 +145,6 @@ namespace VsIncludeEditor.Modules.TreeView
                 }
             }
             SelectedNodes.Clear();
-        }
-
-        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var node = trvIncludes.SelectedItem as TreeNode;
-            if (node == null)
-                return;
-
-            SelectedNode = node;
         }
     }
 }

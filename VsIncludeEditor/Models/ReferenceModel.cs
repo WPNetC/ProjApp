@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace VsIncludeEditor.Models
 {
@@ -16,6 +17,19 @@ namespace VsIncludeEditor.Models
         public string PublicKey => Include != null ? Regex.Match(Include, "PublicKeyToken=([a-zA-Z0-9]+)")?.Value : null;
         public string Architecture => Include != null ? Regex.Match(Include, "processorArchitecture=([a-zA-Z0-9]+)")?.Value : null;
 
-        public bool IsSelected { get; set; }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsSelected"));
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

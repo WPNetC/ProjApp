@@ -13,15 +13,15 @@ namespace VsIncludeEditor.Services
     {
         public List<XmlNode> GetContentNodes(XmlNodeList nodes)
         {
-            var name = CSPROJ_CONTENT;
             var result = new List<XmlNode>();
             foreach (XmlNode itemGroup in nodes)
             {
                 // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes || itemGroup.ChildNodes[0].Name.ToUpperInvariant() != name.ToUpperInvariant())
+                if (!itemGroup.HasChildNodes)
                     continue;
 
-                result.Add(itemGroup);
+                if (CSPROJ_EXE_INCLUDE_TAGS.Contains(itemGroup.ChildNodes[0].Name))
+                    result.Add(itemGroup);
             }
 
             return result;
@@ -49,15 +49,25 @@ namespace VsIncludeEditor.Services
                         {
                             if (property.Name == "SubType")
                                 refObj.SubType = property.InnerText;
+                            else if (property.Name == "AutoGen")
+                                refObj.AutoGen = property.InnerText;
+                            else if (property.Name == "DependentUpon")
+                                refObj.DependentUpon = property.InnerText;
+                            else if (property.Name == "DesignTime")
+                                refObj.DesignTime = property.InnerText;
+                            else if (property.Name == "DesignTimeSharedInput")
+                                refObj.DesignTimeSharedInput = property.InnerText;
+                            else if (property.Name == "LastGenOutput")
+                                refObj.LastGenOutput = property.InnerText;
+                            else if (property.Name == "Generator")
+                                refObj.Generator = property.InnerText;
                             else if (property.Name != "#text")
                                 throw new InvalidOperationException($"Invalid type: {property.Name}");
                         }
                     }
-
                     yield return refObj;
                 }
             }
         }
-        
     }
 }

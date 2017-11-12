@@ -95,7 +95,7 @@ namespace VsIncludeEditor.Services
 
         public List<TreeNode> GetContentAsTree(string csprojPath)
         {
-            var includes = GetContentIncludes(csprojPath).Select(p => p.Include).ToArray();
+            var includes = GetContentIncludes(csprojPath);
             return TreeParser.GetContentAsTree(includes);
 
         }

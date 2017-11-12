@@ -7,87 +7,22 @@
              xmlns:mods="clr-namespace:VsIncludeEditor.Models"
              xmlns:tr="clr-namespace:VsIncludeEditor.Modules.TreeView"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="800">
+             d:DesignHeight="300"
+             d:DesignWidth="800">
     <UserControl.DataContext>
         <local:IncludeEditorViewModel x:Name="vm"/>
     </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*" MinWidth="200"/>
+            <ColumnDefinition Width="1*" MinWidth="200"/>
             <ColumnDefinition Width="1*" MinWidth="300"/>
         </Grid.ColumnDefinitions>
-<!--
-        <ListBox Grid.Column="0" x:Name="grdIncludes"
-                 ItemsSource="{Binding Includes, Mode=OneWay}"
-                 VirtualizingPanel.IsVirtualizing="True"
-                 VirtualizingPanel.VirtualizationMode="Recycling"
-                 SelectionMode="Extended">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Include}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
--->
 
-        <ListBox Grid.Column="0" x:Name="grdIncludes"
-                 ItemsSource="{Binding Tree}"
-                 VirtualizingPanel.IsVirtualizing="True"
-                 VirtualizingPanel.VirtualizationMode="Recycling"
-                 SelectionMode="Extended">
-            <ListBox.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type tr:FolderNode}" ItemsSource="{Binding Children}">
-                    <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
-                        <StackPanel.Resources>
-                            <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
-                        </StackPanel.Resources>
-                        <Image Source="{StaticResource Folder_Red}" />
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text=" ("/>
-                        <TextBlock Text="{Binding Children.Count}"/>
-                        <TextBlock Text=")"/>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type tr:FileNode}">
-                    <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
-                        <StackPanel.Resources>
-                            <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
-                        </StackPanel.Resources>
-                        <Image Source="{StaticResource File_Doc}" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.Resources>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
+        <tr:ListTreeControl Grid.Column="0"
+                            Nodes="{Binding Tree}"
+                            SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
         <tr:TreeViewControl Grid.Column="1"
                             Nodes="{Binding Tree}"
                             SelectedNode="{Binding SelectedNode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

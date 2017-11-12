@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using VsIncludeEditor.Models;
 
 namespace VsIncludeEditor.Modules.TreeView
 {
     [Serializable]
-    public abstract class TreeNode : IEquatable<TreeNode>
+    public abstract class TreeNode : IEquatable<TreeNode>, INotifyPropertyChanged
     {
+        private string _fullPath;
+        private string _name;
+        private List<TreeNode> _children;
+        private bool _isSelected;
+        
         public TreeNode()
         {
             Children = new List<TreeNode>();
@@ -14,12 +21,75 @@ namespace VsIncludeEditor.Modules.TreeView
         {
             Name = name;
         }
+        public TreeNode(string name, ISelectable model) : this(name)
+        {
+            NodeModel = model;
+        }
 
-        public string Name { get; set; }
-        public string FullPath { get; set; }
-        public TreeNode Parent { get; set; }
-        public List<TreeNode> Children { get; set; }
-        public bool IsSelected { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value != _name)
+                {
+                    _name = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+                }
+            }
+        }
+        public string FullPath
+        {
+            get { return _fullPath; }
+            set
+            {
+                if (value != _fullPath)
+                {
+                    _fullPath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FullPath"));
+                }
+            }
+        }
+        public List<TreeNode> Children
+        {
+            get { return _children; }
+            set
+            {
+                if (value != _children)
+                {
+                    _children = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Children"));
+                }
+            }
+        }    
+        public List<TreeNode> Descendents
+        {
+            get
+            {
+                var list = new List<TreeNode> { this };
+                foreach (var item in Children)
+                {
+                    list.AddRange(item.Descendents);
+                }
+                return list;
+            }
+        }
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsSelected"));
+                }
+            }
+        }
+        public ISelectable NodeModel { get; set; }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public override bool Equals(object obj)
         {

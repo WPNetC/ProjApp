@@ -1,0 +1,8 @@
+﻿<IncludeEditor:IncludeEditorViewModel xmlns:IncludeEditor="clr-namespace:VsIncludeEditor.Modules.IncludeEditor" xmlns:Models="clr-namespace:VsIncludeEditor.Models" xmlns:TreeView="clr-namespace:VsIncludeEditor.Modules.TreeView">
+	<IncludeEditor:IncludeEditorViewModel.SelectedIncludes>
+		<Models:ContentModel AutoGen="Adipiscing odio risus orci" DesignTimeSharedInput="Consequat ultrices velit nostra" DesignTime="Montes pede parturient" DependentUpon="Curae urna" Generator="Vehicula volutpat non vitae" Include="Ornare vestibulum per sed" IsSelected="True" LastGenOutput="Maecenas platea class vestibulum quam" SubType="Sem adipiscing quis parturient vestibulum"/>
+	</IncludeEditor:IncludeEditorViewModel.SelectedIncludes>
+	<IncludeEditor:IncludeEditorViewModel.SelectedNode>
+		<TreeView:TreeNode FullPath="Elementum lacinia" IsSelected="False" Name="Convallis dignissim iaculis"/>
+	</IncludeEditor:IncludeEditorViewModel.SelectedNode>
+</IncludeEditor:IncludeEditorViewModel>

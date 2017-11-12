@@ -1,6 +1,8 @@
-﻿namespace VsIncludeEditor.Models
+﻿using System.ComponentModel;
+
+namespace VsIncludeEditor.Models
 {
-    public interface ISelectable
+    public interface ISelectable : INotifyPropertyChanged
     {
         bool IsSelected { get; set; }
     }

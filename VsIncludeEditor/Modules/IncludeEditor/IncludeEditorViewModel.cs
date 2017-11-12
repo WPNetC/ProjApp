@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 using VsIncludeEditor.Models;
 using VsIncludeEditor.Modules.TreeView;
 
@@ -17,6 +18,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
         private ObservableCollection<TreeNode> _tree;
         private ContentModel _selectedIncludes;
         private TreeNode _selectedNode;
+        private ICommand _cmdToggleGroup;
 
         public ObservableCollection<ContentModel> Includes
         {
@@ -90,6 +92,16 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
         }
 
+        public ICommand CmdToggleGroup
+        {
+            get
+            {
+                if (_cmdToggleGroup == null)
+                    _cmdToggleGroup = new ToggleGroupSelect(this);
+                return _cmdToggleGroup;
+            }
+        }
+
         public void SetIncludes(IEnumerable<ContentModel> references)
         {
             Includes.Clear();
@@ -107,5 +119,11 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 Tree.Add(item);
             }
         }
+
+        internal void ToggleGroupSelect()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

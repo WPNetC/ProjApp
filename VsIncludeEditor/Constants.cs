@@ -20,21 +20,19 @@
         public const string CSPROJ_EMBRESOURCE = "EmbeddedResource";
         public const string CSPROJ_PAGE = "Page";
 
-        public static readonly string[] GEN_INCLUDE_TAGS =
-            {
-                CSPROJ_CONTENT,
-                CSPROJ_FOLDER,
-                CSPROJ_INCLUDE,
-                CSPROJ_ITEMGROUP,
-                CSPROJ_NONE
-            };
-
-        public static readonly string[] EXE_INCLUDE_TAGS =
+        public static readonly string[] CSPROJ_EXE_INCLUDE_TAGS =
             {
                 CSPROJ_APPDEF,
                 CSPROJ_COMPILE,
                 CSPROJ_EMBRESOURCE,
                 CSPROJ_PAGE
+            };
+
+        public static readonly string[] CSPROJ_GEN_INCLUDE_TAGS =
+            {
+                CSPROJ_CONTENT,
+                CSPROJ_FOLDER,
+                CSPROJ_NONE
             };
     }
 }

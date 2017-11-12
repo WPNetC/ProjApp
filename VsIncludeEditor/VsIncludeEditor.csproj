@@ -60,6 +60,7 @@
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\ISelectable.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
+    <Compile Include="Modules\IncludeEditor\Commands.cs" />
     <Compile Include="Modules\TreeView\FileNode.cs" />
     <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
       <DependentUpon>IncludeEditorView.xaml</DependentUpon>
@@ -71,6 +72,9 @@
     </Compile>
     <Compile Include="Modules\TopPanel\TopPanelViewModel.cs" />
     <Compile Include="Modules\TreeView\FolderNode.cs" />
+    <Compile Include="Modules\TreeView\ListTreeControl.xaml.cs">
+      <DependentUpon>ListTreeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\TreeView\TreeNode.cs" />
     <Compile Include="Modules\TreeView\TreeParser.cs" />
     <Compile Include="Modules\TreeView\TreeViewControl.xaml.cs">
@@ -101,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\TreeView\ListTreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\TreeView\TreeViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +125,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <DesignData Include="SampleData\IncludeEditorViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -150,5 +162,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\doc.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

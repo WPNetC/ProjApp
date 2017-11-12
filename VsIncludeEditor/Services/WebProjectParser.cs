@@ -13,15 +13,15 @@ namespace VsIncludeEditor.Services
     {
         public List<XmlNode> GetContentNodes(XmlNodeList nodes)
         {
-            var name = CSPROJ_CONTENT;
             var result = new List<XmlNode>();
             foreach (XmlNode itemGroup in nodes)
             {
                 // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes || itemGroup.ChildNodes[0].Name.ToUpperInvariant() != name.ToUpperInvariant())
+                if (!itemGroup.HasChildNodes)
                     continue;
 
-                result.Add(itemGroup);
+                if(CSPROJ_GEN_INCLUDE_TAGS.Contains(itemGroup.ChildNodes[0].Name))
+                    result.Add(itemGroup);
             }
 
             return result;

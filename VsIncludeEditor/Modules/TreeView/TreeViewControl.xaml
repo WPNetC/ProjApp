@@ -7,31 +7,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <TreeView x:Name="trvIncludes" Grid.Column="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeView_SelectedItemChanged">
+    <TreeView x:Name="trvIncludes"
+              Grid.Column="1"
+              ItemsSource="{Binding Nodes}"
+              SelectedItemChanged="TreeView_SelectedItemChanged">
         <TreeView.Resources>
             <HierarchicalDataTemplate DataType="{x:Type local:FolderNode}" ItemsSource="{Binding Children}">
-                <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
-                    <StackPanel.Resources>
-                        <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
-                    </StackPanel.Resources>
-                    <Image Source="{StaticResource Folder_Red}" />
-                    <TextBlock Text="{Binding Name}"/>
-                    <TextBlock Text=" ("/>
-                    <TextBlock Text="{Binding Children.Count}"/>
-                    <TextBlock Text=")"/>
-                </StackPanel>
+                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                    <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
+                        <StackPanel.Resources>
+                            <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
+                        </StackPanel.Resources>
+                        <Image Source="{StaticResource Folder_Red}" />
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text=" ("/>
+                        <TextBlock Text="{Binding Children.Count}"/>
+                        <TextBlock Text=")"/>
+                    </StackPanel>
+                </CheckBox>
             </HierarchicalDataTemplate>
             <DataTemplate DataType="{x:Type local:FileNode}">
-                <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
-                    <StackPanel.Resources>
-                        <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
-                    </StackPanel.Resources>
-                    <Image Source="{StaticResource File_Doc}" />
-                    <TextBlock Text="{Binding Name}" />
-                </StackPanel>
-            </DataTemplate>
+                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
+                    <StackPanel Style="{StaticResource ResourceKey=TreePanel}">
+                        <StackPanel.Resources>
+                            <Style TargetType="Image" BasedOn="{StaticResource ResourceKey=TreeIcon}"/>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=TreeText}"/>
+                        </StackPanel.Resources>
+                        <Image Source="{StaticResource File_Doc}" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </CheckBox>
+            </DataTemplate>                
         </TreeView.Resources>
     </TreeView>
 </UserControl>

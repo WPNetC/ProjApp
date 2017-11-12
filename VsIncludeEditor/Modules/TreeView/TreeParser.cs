@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsIncludeEditor.Models;
 
 namespace VsIncludeEditor.Modules.TreeView
 {
     public class TreeParser
     {
-        public static List<TreeNode> GetContentAsTree(params string[] args)
+        public static List<TreeNode> GetContentAsTree(IEnumerable<ContentModel> content)
         {
             var result = new List<TreeNode>();
-            foreach (var item in args)
+            foreach (var item in content)
             {
-                var pathParts = item.Split('\\');
+                var pathParts = item.Include.Split('\\');
                 int cnt = pathParts.Length;
                 var root = pathParts[0];
                 var fileName = pathParts[cnt - 1];
 
                 if (root == fileName)
                 {
-                    var node = new FileNode(fileName) { FullPath = item };
+                    var node = new FileNode(fileName, item) { FullPath = item.Include };
                     if (!result.Contains(node))
                         result.Add(node);
                 }
@@ -32,14 +33,16 @@ namespace VsIncludeEditor.Modules.TreeView
                     for (int idx = 1; idx < cnt; idx++)
                     {
                         var childName = pathParts[idx];
-                        var childPath = idx == cnt - 1 ? string.Join("\\", pathParts) : string.Join("\\", pathParts.Take(idx + 1));
+                        var isEnd = idx == cnt - 1;
+                        var isFile = isEnd && childName.Contains('.');
+                        var childPath = isEnd ? string.Join("\\", pathParts) : string.Join("\\", pathParts.Take(idx + 1));
 
                         var childNode = parentNode.Children.FirstOrDefault(p => p.Name == childName);
                         if (childNode == null)
                         {
-                            if (childPath.Split('.').Length == 2)
+                            if (isFile) //(childName.Split('.').Length == 2)
                             {
-                                childNode = new FileNode(childName) { FullPath = childPath };
+                                childNode = new FileNode(childName, item) { FullPath = childPath };
                             }
                             else
                             {
