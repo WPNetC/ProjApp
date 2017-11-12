@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using VsIncludeEditor.Models;
 
 namespace VsIncludeEditor.Modules.TreeView
@@ -62,14 +64,17 @@ namespace VsIncludeEditor.Modules.TreeView
                 }
             }
         }    
-        public List<TreeNode> Descendents
+        public ConcurrentBag<TreeNode> Descendents
         {
             get
             {
-                var list = new List<TreeNode> { this };
-                foreach (var item in Children)
+                var list = new ConcurrentBag<TreeNode> { this };
+                foreach (var item in Children.AsParallel())
                 {
-                    list.AddRange(item.Descendents);
+                    foreach (var desc in item.Descendents.AsParallel())
+                    {
+                        list.Add(desc);
+                    }
                 }
                 return list;
             }

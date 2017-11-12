@@ -20,19 +20,26 @@ namespace VsIncludeEditor.Services
             var nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
             nsmgr.AddNamespace("a", "http://schemas.microsoft.com/appx/2010/manifest");
             xmlDoc.LoadXml(origText);
-
-            //var nodes = xmlDoc.DocumentElement.GetElementsByTagName(Constants.CSPROJ_CONTENT);
-            //var cnt = nodes.Count;
-
+            
             var toExclude = includes.Select(p => p.Include).ToArray();
 
-            foreach (var item in toExclude)
+            //foreach (var item in toExclude)
+            //{
+            //    var exNodes = xmlDoc.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include='{item}']");
+            //    foreach (XmlNode exNode in exNodes)
+            //    {
+            //        exNode.ParentNode.RemoveChild(exNode);
+            //    }
+            //}
+
+            var exNodes = xmlDoc.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include]");
+            var cnt = exNodes.Count;
+
+            for (int ii = 0; ii < cnt; ii++)
             {
-                var exNodes = xmlDoc.SelectNodes($"//*[local-name()='{Constants.CSPROJ_ITEMGROUP}']/*[@Include='{item}']");
-                foreach (XmlNode exNode in exNodes)
-                {
-                    exNode.ParentNode.RemoveChild(exNode);
-                }
+                var node = exNodes[ii];
+                if (toExclude.Contains(node.Attributes[Constants.CSPROJ_INCLUDE]?.Value))
+                    node.ParentNode.RemoveChild(node);
             }
 
             xmlDoc.Save("C:\\Test\\test.xml");

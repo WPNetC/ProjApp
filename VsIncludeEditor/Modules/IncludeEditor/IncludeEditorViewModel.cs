@@ -117,8 +117,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 }
             }
         }
-
-
+        
         public UserControl TreeView
         {
             get
@@ -149,6 +148,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 return _cmdToggleGroup;
             }
         }
+
         public ICommand CmdExcludeSelected
         {
             get
@@ -199,7 +199,15 @@ namespace VsIncludeEditor.Modules.IncludeEditor
 
             var writer = new ProjWriterService();
             writer.WriteExclusions(content, _currentCsprojFile);
-        }
 
+            foreach (var node in Tree)
+            {
+                foreach (var desc in node.Descendents)
+                {
+                    desc.IsSelected = false;
+                }
+            }
+            SelectedNodes.Clear();
+        }
     }
 }

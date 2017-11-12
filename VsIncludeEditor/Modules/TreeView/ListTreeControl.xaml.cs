@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,7 +54,8 @@ namespace VsIncludeEditor.Modules.TreeView
 
         public ObservableCollection<TreeNode> SelectedNodes
         {
-            get {
+            get
+            {
                 return (ObservableCollection<TreeNode>)GetValue(SelectedNodesProperty);
             }
             set { SetValue(SelectedNodesProperty, value); }
@@ -87,7 +89,8 @@ namespace VsIncludeEditor.Modules.TreeView
             SelectedNode = node;
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private delegate void CheckboxDelegate(object sender, RoutedEventArgs e);
+        private async void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var nodeCb = e.Source as CheckBox;
             var node = nodeCb?.DataContext as TreeNode;
@@ -95,49 +98,48 @@ namespace VsIncludeEditor.Modules.TreeView
                 return;
 
             SelectedNode = node;
-
-            if(!SelectedNodes.Contains(SelectedNode))
-                SelectedNodes.Add(SelectedNode);
+            SelectedNodes.Add(SelectedNode);
 
             if (node is FolderNode)
             {
-                foreach (var item in SelectedNode.Descendents)
+                await Task.Run(() =>
                 {
-                    if (!item.IsSelected)
+                    foreach (var item in node.Descendents.Where(p => !p.IsSelected))
                     {
                         item.IsSelected = true;
-
-                        if (!SelectedNodes.Contains(item))
-                            SelectedNodes.Add(item);
+                        var del = new TreeNodeDelegate(AddSelectedNode);
+                        App.Current.Dispatcher.Invoke(del, item);
                     }
-                }
+                });
             }
 
-            SelectedCount = SelectedNodes.Count();
+            UpdateCount();
         }
 
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private async void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             var nodeCb = e.Source as CheckBox;
             var node = nodeCb?.DataContext as TreeNode;
             if (node == null)
                 return;
 
-            SelectedNode = node;
+            SetSelectedNode(node);
             SelectedNodes.Remove(SelectedNode);
+
             if (node is FolderNode)
             {
-                foreach (var item in SelectedNode.Descendents)
+                await Task.Run(() =>
                 {
-                    if (item.IsSelected)
+                    foreach (var item in node.Descendents.Where(p => p.IsSelected))
                     {
                         item.IsSelected = false;
-                        SelectedNodes.Remove(item);
+                        var del = new TreeNodeDelegate(RemoveSelectedNode);
+                        App.Current.Dispatcher.Invoke(del, item);
                     }
-                }
+                });
             }
 
-            SelectedCount = SelectedNodes.Count();
+            UpdateCount();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -151,6 +153,25 @@ namespace VsIncludeEditor.Modules.TreeView
                 }
             }
             SelectedNodes.Clear();
+        }
+
+
+        private void UpdateCount()
+        {
+            SelectedCount = SelectedNodes.Count();
+        }
+        private delegate void TreeNodeDelegate(TreeNode node);
+        private void SetSelectedNode(TreeNode node)
+        {
+            SelectedNode = node;
+        }
+        private void AddSelectedNode(TreeNode node)
+        {
+            SelectedNodes.Add(node);
+        }
+        private void RemoveSelectedNode(TreeNode node)
+        {
+            SelectedNodes.Remove(node);
         }
     }
 }
