@@ -55,4 +55,30 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             _vm.ExcludeSelected();
         }
     }
+
+    internal sealed class RevertChange : ICommand
+    {
+        public RevertChange(IncludeEditorViewModel vm)
+        {
+            this._vm = vm;
+        }
+
+        private IncludeEditorViewModel _vm;
+
+        bool ICommand.CanExecute(object parameter)
+        {
+            return _vm.CanRevertChange();
+        }
+
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        void ICommand.Execute(object parameter)
+        {
+            _vm.RevertChange();
+        }
+    }
 }

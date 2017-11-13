@@ -39,5 +39,21 @@ namespace VsIncludeEditor.Services
             File.Copy(csprojFile.FullName, bakPath);
             xmlDoc.Save(csprojFile.FullName);
         }
+
+        public bool Revert(FileInfo csprojFile)
+        {
+            var bak = $"{csprojFile.FullName}.bak";
+            if (!File.Exists(bak) || !File.Exists(csprojFile.FullName))
+                return false;
+
+            File.Delete(csprojFile.FullName);
+            File.Move(bak, csprojFile.FullName);
+            return true;
+        }
+
+        public static bool CanRevert(FileInfo csprojFile)
+        {
+            return File.Exists($"{csprojFile.FullName}.bak");
+        }
     }
 }

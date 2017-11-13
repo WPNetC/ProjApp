@@ -27,6 +27,13 @@ namespace VsIncludeEditor.Modules.IncludeEditor
         private ICommand _cmdToggleGroup;
         private ICommand _cmdExcludeSelected;
         private FileInfo _currentCsprojFile;
+        private ProjWriterService _writer;
+        private ICommand _cmdRevertChanges;
+
+        public IncludeEditorViewModel()
+        {
+            _writer = new ProjWriterService();
+        }
 
         public ObservableCollection<ContentModel> Includes
         {
@@ -41,9 +48,9 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
             private set
             {
-                if(value != _includes)
+                if (value != _includes)
                 {
-                    if(_includes != null)
+                    if (_includes != null)
                         BindingOperations.DisableCollectionSynchronization(_includes);
 
                     _includes = value;
@@ -63,7 +70,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
             private set
             {
-                if(value != _tree)
+                if (value != _tree)
                 {
                     _tree = value;
                     OnChanged();
@@ -92,7 +99,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
             set
             {
-                if(value != _selectedNode)
+                if (value != _selectedNode)
                 {
                     _selectedNode = value;
                     OnChanged();
@@ -117,12 +124,12 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 }
             }
         }
-        
+
         public UserControl TreeView
         {
             get
             {
-                if(_treeView == null)
+                if (_treeView == null)
                 {
                     _treeView = new TreeView.ListTreeControl();
 
@@ -131,7 +138,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
             private set
             {
-                if(value != _treeView)
+                if (value != _treeView)
                 {
                     _treeView = value;
                     OnChanged();
@@ -158,6 +165,17 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 return _cmdExcludeSelected;
             }
         }
+
+        public ICommand CmdRevertChanges
+        {
+            get
+            {
+                if (_cmdRevertChanges == null)
+                    _cmdRevertChanges = new RevertChange(this);
+                return _cmdRevertChanges;
+            }
+        }
+
 
         public void SetIncludes(IEnumerable<ContentModel> references)
         {
@@ -197,8 +215,7 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 .Select(p => p.NodeModel)
                 .ToArray();
 
-            var writer = new ProjWriterService();
-            writer.WriteExclusions(content, _currentCsprojFile);
+            _writer.WriteExclusions(content, _currentCsprojFile);
 
             foreach (var node in Tree)
             {
@@ -208,6 +225,30 @@ namespace VsIncludeEditor.Modules.IncludeEditor
                 }
             }
             SelectedNodes.Clear();
+        }
+
+        internal bool CanRevertChange()
+        {
+            if (_currentCsprojFile == null)
+                return false;
+            return ProjWriterService.CanRevert(_currentCsprojFile);
+        }
+
+        internal bool RevertChange()
+        {
+            if (_currentCsprojFile == null)
+                return false;
+            return _writer.Revert(_currentCsprojFile);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _writer = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

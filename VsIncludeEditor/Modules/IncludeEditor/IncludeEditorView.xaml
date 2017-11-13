@@ -26,7 +26,9 @@
 
         <DockPanel Grid.Column="2">
             <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                <TextBlock Text="Nodes To Exclude: "/>
                 <TextBlock DockPanel.Dock="Left" Text="{Binding SelectedNodes.Count, FallbackValue=0}"/>
+                <Button DockPanel.Dock="Right" Content="Revert" Command="{Binding CmdRevertChanges}"/>
                 <Button DockPanel.Dock="Right" Content="Exclude" Command="{Binding CmdExcludeSelected}"/>
             </DockPanel>
             <ScrollViewer DockPanel.Dock="Bottom">
