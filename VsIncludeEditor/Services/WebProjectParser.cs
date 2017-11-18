@@ -41,6 +41,8 @@ namespace VsIncludeEditor.Services
                             refObj.SubType = property.InnerText;
                         else if (property.Name == "DependentUpon")
                             refObj.DependentUpon = property.InnerText;
+                        else if (property.Name == "Link")
+                            refObj.Link = property.InnerText;
                         else if (property.Name != "#text")
                             throw new InvalidOperationException($"Invalid type: {property.Name}");
                     }

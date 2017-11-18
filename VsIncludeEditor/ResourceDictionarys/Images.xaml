@@ -4,5 +4,8 @@
 
     <BitmapImage x:Key="Folder_Red" UriSource="/VsIncludeEditor;component/Resources/Icons/folder_red.ico" />
     <BitmapImage x:Key="File_Doc" UriSource="/VsIncludeEditor;component/Resources/Icons/doc.ico" />
+    <BitmapImage x:Key="ico_Includes" UriSource="/VsIncludeEditor;component/Resources/Icons/if_Address_book_132733.ico" />
+    <BitmapImage x:Key="ico_Resources" UriSource="/VsIncludeEditor;component/Resources/Icons/if_Component_132638.ico" />
+    <BitmapImage x:Key="ico_OpenProj" UriSource="/VsIncludeEditor;component/Resources/Icons/if_List_132709.ico" />
     
 </ResourceDictionary>

@@ -246,6 +246,12 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             if (disposing)
             {
                 _writer = null;
+                Includes = null;
+                Tree = null;
+                SelectedNodes = null;
+                _cmdExcludeSelected = null;
+                _cmdRevertChanges = null;
+                _cmdToggleGroup = null;
             }
 
             base.Dispose(disposing);

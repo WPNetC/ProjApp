@@ -23,7 +23,13 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,2"/>
     </Style>
-    
+    <Style TargetType="Button" x:Key="IconButton">
+        <Setter Property="Margin" Value="1,2"/>
+    </Style>
+    <Style TargetType="Image" x:Key="IconButtonImage">
+        <Setter Property="Margin" Value="1"/>
+    </Style>
+
     <!-- Tree View -->
     <Style TargetType="Image" x:Key="TreeIcon">
         <Setter Property="Height" Value="16"/>

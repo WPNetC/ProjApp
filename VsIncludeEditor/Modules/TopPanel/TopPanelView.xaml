@@ -5,12 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VsIncludeEditor.Modules.TopPanel"
              mc:Ignorable="d" 
-             d:DesignHeight="38" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <local:TopPanelViewModel x:Name="vm" />
-    </UserControl.DataContext>
-    <DockPanel Grid.Row="0" LastChildFill="False">
-        <Button DockPanel.Dock="Left" Content="Open" Style="{StaticResource ResourceKey=TopNavButton}" Command="{Binding cmdOpenFile}"/>
-        <TextBlock DockPanel.Dock="Right" Text="{Binding ProjectName}" Style="{StaticResource ResourceKey=TopNavText}"/>
-    </DockPanel>
+             d:DesignHeight="64" d:DesignWidth="300">
+    <Grid x:Name="grdWrapper">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="False">
+            <Button DockPanel.Dock="Left" ToolTip="Open" Style="{StaticResource IconButton}" Click="FileOpen_Click">
+                <Image Source="{StaticResource ico_OpenProj}" Style="{StaticResource IconButtonImage}" />
+            </Button>
+        </DockPanel>
+        <DockPanel Grid.Row="1" LastChildFill="False">
+            <Button DockPanel.Dock="Left" ToolTip="Include Editor" Style="{StaticResource IconButton}" x:Name="btnContentIncludes" Click="ViewSelect_Clicked">
+                <Image Source="{StaticResource ico_Includes}" Style="{StaticResource IconButtonImage}" />
+            </Button>
+            <Button DockPanel.Dock="Left" ToolTip="Resources Editor" Style="{StaticResource IconButton}" x:Name="btnReferenceIncludes" Click="ViewSelect_Clicked">
+                <Image Source="{StaticResource ico_Resources}" Style="{StaticResource IconButtonImage}" />
+            </Button>
+        </DockPanel>
+    </Grid>
 </UserControl>

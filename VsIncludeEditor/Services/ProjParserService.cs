@@ -48,42 +48,42 @@ namespace VsIncludeEditor.Services
         }
 
 
-        public IEnumerable<ReferenceModel> GetReferences(string csprojPath)
+        public List<ReferenceModel> GetReferences(string csprojPath)
         {
+            var results = new List<ReferenceModel>();
+
             if (!csprojPath.ToLower().EndsWith("csproj") || !File.Exists(csprojPath))
-                yield break;
+                return results;
+
 
             // Step through each item group.
-            foreach (XmlNode itemGroup in GetNodes(csprojPath))
+            foreach (XmlNode item in GetNodes(csprojPath))
             {
-                // Skip if not of correct type or an empty collection.
-                if (!itemGroup.HasChildNodes || itemGroup.ChildNodes[0].Name != CSPROJ_REFERENCE)
+                if (item.Name != CSPROJ_REFERENCE)
                     continue;
 
-
-                foreach (XmlNode item in itemGroup.ChildNodes)
+                var refObj = new ReferenceModel
                 {
-                    var refObj = new ReferenceModel
-                    {
-                        Include = item.Attributes[CSPROJ_INCLUDE]?.Value
-                    };
+                    Include = item.Attributes[CSPROJ_INCLUDE]?.Value
+                };
 
-                    if (item.HasChildNodes)
+                if (item.HasChildNodes)
+                {
+                    foreach (XmlNode property in item.ChildNodes)
                     {
-                        foreach (XmlNode property in item.ChildNodes)
-                        {
-                            if (property.Name == "SpecificVersion")
-                                refObj.SpecificVersion = property.InnerText;
-                            else if (property.Name == "HintPath")
-                                refObj.HintPath = property.InnerText;
-                            else if (property.Name == "Private")
-                                refObj.Private = Convert.ToBoolean(property.InnerText);
-                        }
+                        if (property.Name == "SpecificVersion")
+                            refObj.SpecificVersion = property.InnerText;
+                        else if (property.Name == "HintPath")
+                            refObj.HintPath = property.InnerText;
+                        else if (property.Name == "Private")
+                            refObj.Private = Convert.ToBoolean(property.InnerText);
                     }
-
-                    yield return refObj;
                 }
+
+                results.Add(refObj);
             }
+
+            return results;
         }
 
 

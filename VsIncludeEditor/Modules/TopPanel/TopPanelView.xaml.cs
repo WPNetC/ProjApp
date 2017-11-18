@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace VsIncludeEditor.Modules.TopPanel
 {
@@ -23,6 +12,66 @@ namespace VsIncludeEditor.Modules.TopPanel
         public TopPanelView()
         {
             InitializeComponent();
+            grdWrapper.DataContext = this;
+        }
+
+
+
+        public FileInfo CurrentProjectFile
+        {
+            get { return (FileInfo)GetValue(CurrentProjectFileProperty); }
+            set { SetValue(CurrentProjectFileProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for fileInfo.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentProjectFileProperty =
+            DependencyProperty.Register("CurrentProjectFile", typeof(FileInfo), typeof(TopPanelView), new PropertyMetadata(null));
+
+
+
+        public UserControl CurrentControl
+        {
+            get { return (UserControl)GetValue(CurrentControlProperty); }
+            set { SetValue(CurrentControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentControl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentControlProperty =
+            DependencyProperty.Register("CurrentControl", typeof(UserControl), typeof(TopPanelView), new PropertyMetadata(null));
+
+
+
+        private void FileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new System.Windows.Forms.OpenFileDialog())
+            {
+                fbd.Filter = "csproj files|*.csproj";
+                fbd.Multiselect = false;
+
+                if (fbd.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                    return;
+
+                CurrentProjectFile = new FileInfo(fbd.FileName);
+            }
+        }
+
+        private void ViewSelect_Clicked(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            if (btn == null)
+                return;
+
+            switch (btn.Name)
+            {
+                case "btnContentIncludes":
+                    CurrentControl = new IncludeEditor.IncludeEditorView();
+                    break;
+                case "btnReferenceIncludes":
+                    CurrentControl = new ReferenceEditor.ReferenceEditorView();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

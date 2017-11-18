@@ -12,19 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VsIncludeEditor.Modules.TreeView;
 
-namespace VsIncludeEditor.Modules.IncludeEditor
+namespace VsIncludeEditor.Modules.ReferenceEditor
 {
     /// <summary>
-    /// Interaction logic for IncludeEditorView.xaml
+    /// Interaction logic for ReferenceEditorView.xaml
     /// </summary>
-    public partial class IncludeEditorView : UserControl
+    public partial class ReferenceEditorView : UserControl
     {
-        public IncludeEditorView()
+        public ReferenceEditorView()
         {
             InitializeComponent();
-            this.Unloaded += (s, e) => { ((IncludeEditorViewModel)this.DataContext).Dispose(); };
+            this.Unloaded += (s, e) => { ((ReferenceEditorViewModel)this.DataContext).Dispose(); };
         }
     }
 }

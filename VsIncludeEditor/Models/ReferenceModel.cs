@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace VsIncludeEditor.Models
 {
-    public struct ReferenceModel: IInclude
+    public struct ReferenceModel: IInclude, IEquatable<ReferenceModel>
     {
         public string Include { get; set; }
         public string SpecificVersion { get; set; }
@@ -31,5 +32,45 @@ namespace VsIncludeEditor.Models
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+        public static bool operator == (ReferenceModel a, ReferenceModel b)
+        {
+            if (ReferenceEquals(null, a))
+                return ReferenceEquals(null, b);
+            if (ReferenceEquals(null, b))
+                return ReferenceEquals(null, a);
+
+            return a.Equals(b);
+        }
+        public static bool operator !=(ReferenceModel a, ReferenceModel b)
+        {
+            if (ReferenceEquals(null, a))
+                return !ReferenceEquals(null, b);
+            if (ReferenceEquals(null, b))
+                return !ReferenceEquals(null, a);
+
+            return !a.Equals(b);
+        }
+        public bool Equals(ReferenceModel other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            return this.GetHashCode() == other.GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            if(obj is ReferenceModel)
+                return Equals((ReferenceModel)obj);
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return Include?.GetHashCode() ?? base.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return ShortName;
+        }
     }
 }

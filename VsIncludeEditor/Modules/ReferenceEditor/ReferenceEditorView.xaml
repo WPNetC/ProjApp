@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="VsIncludeEditor.Modules.ReferenceEditor.ReferenceEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VsIncludeEditor.Modules.ReferenceEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.DataContext>
+        <local:ReferenceEditorViewModel x:Name="vm"/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox Grid.Column="0" ItemsSource="{Binding References}"
+                 SelectedItem="{Binding SelectedReference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="10,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ListBoxItem DataContext="{Binding}">
+                        <TextBlock Text="{Binding ShortName}"/>
+                    </ListBoxItem>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <DockPanel Grid.Column="1" DataContext="{Binding SelectedReference}" Margin="10,5">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="Name="/>
+                <TextBlock Text="{Binding ShortName}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="{Binding Architecture}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="{Binding Culture}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="HintPath="/>
+                <TextBlock Text="{Binding HintPath}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="{Binding PublicKey}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="Private="/>
+                <TextBlock Text="{Binding Private}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="SpecificVersion="/>
+                <TextBlock Text="{Binding SpecificVersion}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <TextBlock Text="{Binding Version}"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

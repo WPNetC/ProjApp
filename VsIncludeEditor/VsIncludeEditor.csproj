@@ -63,16 +63,18 @@
     <Compile Include="Models\ReferenceModel.cs" />
     <Compile Include="Modules\IncludeEditor\Commands.cs" />
     <Compile Include="Modules\IncludeEditor\Converters.cs" />
+    <Compile Include="Modules\ReferenceEditor\ReferenceEditorView.xaml.cs">
+      <DependentUpon>ReferenceEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ReferenceEditor\ReferenceEditorViewModel.cs" />
     <Compile Include="Modules\TreeView\FileNode.cs" />
     <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
       <DependentUpon>IncludeEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\IncludeEditor\IncludeEditorViewModel.cs" />
-    <Compile Include="Modules\TopPanel\Commands.cs" />
     <Compile Include="Modules\TopPanel\TopPanelView.xaml.cs">
       <DependentUpon>TopPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\TopPanel\TopPanelViewModel.cs" />
     <Compile Include="Modules\TreeView\FolderNode.cs" />
     <Compile Include="Modules\TreeView\ListTreeControl.xaml.cs">
       <DependentUpon>ListTreeControl.xaml</DependentUpon>
@@ -101,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Modules\IncludeEditor\IncludeEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\ReferenceEditor\ReferenceEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,6 +171,27 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\doc.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\edit_clear.ico" />
+    <Resource Include="Resources\Icons\if_Notes_132689.ico" />
+    <Resource Include="Resources\Icons\if_Sync_132655.ico" />
+    <Resource Include="Resources\Icons\if_Upload_132671.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ResourceDictionarys\if_Address_book_132733.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Hopstarter-Sleek-Xp-Basic-Document.ico" />
+    <Resource Include="Resources\Icons\if_Address_book_132733.ico" />
+    <Resource Include="Resources\Icons\if_Component_132638.ico" />
+    <Resource Include="Resources\Icons\if_Create_132699.ico" />
+    <Resource Include="Resources\Icons\if_Delete_132746.ico" />
+    <Resource Include="Resources\Icons\if_Diagram_132696.ico" />
+    <Resource Include="Resources\Icons\if_Good_mark_132723.ico" />
+    <Resource Include="Resources\Icons\if_List_132709.ico" />
+    <Resource Include="Resources\Icons\if_Save_132607.ico" />
+    <Resource Include="Resources\Icons\if_Yes_132693.ico" />
+    <Resource Include="Resources\Icons\Oxygen-Icons.org-Oxygen-Places-folder-red.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

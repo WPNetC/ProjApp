@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using VsIncludeEditor.Modules.IncludeEditor;
+using VsIncludeEditor.Modules.ReferenceEditor;
 using VsIncludeEditor.Modules.TopPanel;
 using VsIncludeEditor.Services;
 
@@ -14,48 +15,14 @@ namespace VsIncludeEditor
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ObservableCollection<UserControl> _userControls;
-        private TopPanelView _topPanelControl;
-        private UserControl _footPanelControl;
         private UserControl _centerPanelControl;
-        private FileInfo _currentSelectedProject;
-
-        public ObservableCollection<UserControl> UserControls
-        {
-            get
-            {
-                if (_userControls == null)
-                    _userControls = new ObservableCollection<UserControl>
-                    {
-
-                    };
-                return _userControls;
-            }
-            private set
-            {
-                _userControls = value;
-                OnChanged();
-            }
-        }
-
-        public UserControl TopPanelControl
-        {
-            get
-            {
-                if (_topPanelControl == null)
-                {
-                    _topPanelControl = new TopPanelView();
-                    ((TopPanelViewModel)_topPanelControl.DataContext).FileInfoChanged += SelectedProjectChanged;
-                }
-                return _topPanelControl;
-            }
-        }
+        private FileInfo _selectedProject;
 
         public UserControl CenterPanelControl
         {
             get
             {
-                if(_centerPanelControl == null)
+                if (_centerPanelControl == null)
                     _centerPanelControl = new IncludeEditorView();
                 return _centerPanelControl;
             }
@@ -65,43 +32,61 @@ namespace VsIncludeEditor
                 {
                     _centerPanelControl = value;
                     OnChanged();
+
+                    if (value != null)
+                        SelectedProjectChanged();
                 }
             }
         }
 
-        public UserControl FootPanelControl
+        public FileInfo SelectedProject
         {
-            get
-            {
-                return _footPanelControl;
-            }
+            get { return _selectedProject; }
             set
             {
-                if (value != _footPanelControl)
-                {
-                    _footPanelControl = value;
-                    OnChanged();
-                }
+                _selectedProject = value;
+                OnChanged();
+
+                if (value != null)
+                    SelectedProjectChanged();
             }
         }
 
-        private void SelectedProjectChanged(object sender, EventArgs e)
+        private void SelectedProjectChanged()
         {
-            _currentSelectedProject = ((TopPanelViewModel)_topPanelControl.DataContext).ProjectInfo;
+            if (SelectedProject == null)
+                return;
 
             if (CenterPanelControl is IncludeEditorView)
             {
                 var vm = CenterPanelControl.DataContext as IncludeEditorViewModel;
 
+                if (vm == null)
+                    return;
+
                 var parser = new ProjParserService();
 
-                //var refs = parser.GetContentIncludes(_currentSelectedProject.FullName).ToList();
-                var tree = parser.GetContentAsTree(_currentSelectedProject.FullName);
+                var tree = parser.GetContentAsTree(SelectedProject.FullName);
+                if (tree == null)
+                    return;
 
-                //vm?.SetIncludes(refs);
-                vm?.SetTree(tree);
-                vm?.SetCurrentCsProjFile(_currentSelectedProject);
+                vm.SetTree(tree);
+                vm.SetCurrentCsProjFile(SelectedProject);
 
+            }
+            else if (CenterPanelControl is ReferenceEditorView)
+            {
+                var vm = CenterPanelControl.DataContext as ReferenceEditorViewModel;
+                if (vm == null)
+                    return;
+
+                var parser = new ProjParserService();
+
+                var refs = parser.GetReferences(SelectedProject.FullName);
+                if (refs == null)
+                    return;
+
+                vm.SetReferences(refs);
             }
         }
 
@@ -109,9 +94,7 @@ namespace VsIncludeEditor
         {
             if (disposing)
             {
-                ((ViewModelBase)TopPanelControl?.DataContext)?.Dispose();
                 ((ViewModelBase)CenterPanelControl?.DataContext)?.Dispose();
-                ((ViewModelBase)FootPanelControl?.DataContext)?.Dispose();
             }
             base.Dispose(disposing);
         }
