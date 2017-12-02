@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using VsIncludeEditor.Models;
@@ -88,6 +89,7 @@ namespace VsIncludeEditor.Modules.TopPanel
                     Name = fbd.FileName.Split('.')[0]
                 };
                 ProjectList = SlnParserService.GetProjects(CurrentSolution.FileInfo.FullName);
+                SelectedProjectModel = ProjectList.FirstOrDefault();
             }
         }
 

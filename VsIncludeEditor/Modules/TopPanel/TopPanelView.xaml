@@ -1,32 +1,93 @@
-﻿<UserControl x:Class="VsIncludeEditor.Modules.TopPanel.TopPanelView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VsIncludeEditor.Modules.TopPanel"
-             mc:Ignorable="d" 
-             d:DesignHeight="64" d:DesignWidth="300">
-    <Grid x:Name="grdWrapper">
+﻿<UserControl
+    x:Class="VsIncludeEditor.Modules.TopPanel.TopPanelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VsIncludeEditor.Modules.TopPanel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="72"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <Grid x:Name="grdWrapper" Margin="5">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource ToolBarDefault}" TargetType="ToolBar" />
+            <Style BasedOn="{StaticResource ToolBarIcon}" TargetType="Image" />
+            <Style BasedOn="{StaticResource ToolBarText}" TargetType="TextBlock" />
+            <Style TargetType="Separator">
+                <Setter Property="Margin" Value="15,0" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" LastChildFill="False">
-            <Button DockPanel.Dock="Left" ToolTip="Open" Style="{StaticResource IconButton}" Click="FileOpen_Click">
-                <Image Source="{StaticResource ico_OpenProj}" Style="{StaticResource IconButtonImage}" />
-            </Button>
-            <Button DockPanel.Dock="Left" ToolTip="Launch in Visual Studio" Style="{StaticResource IconButton}" Click="LaunchVs_Click">
-                <Image Source="{StaticResource ico_VisualStudio}" Style="{StaticResource IconButtonImage}" />
-            </Button>
-            <ComboBox DockPanel.Dock="Left" x:Name="cmbProjects" ItemsSource="{Binding ProjectList, NotifyOnSourceUpdated=True}" SelectedItem="{Binding SelectedProjectModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="160" />
-        </DockPanel>
+        <ToolBarTray Height="30">
+            <ToolBar>
+                <Button
+                    Click="FileOpen_Click"
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="Open">
+                    <Image Source="{StaticResource ico_OpenProj}" />
+                </Button>
+                <Button
+                    Click="FileOpen_Click"
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="Save">
+                    <Image Source="{StaticResource ico_Save}" />
+                </Button>
+                <Button
+                    Click="FileOpen_Click"
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="Favourites">
+                    <Image Source="{StaticResource ico_Star}" />
+                </Button>
+                <Separator />
+                <TextBlock VerticalAlignment="Center" Text="Current Solution:" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSolution.Name, FallbackValue=Empty}" />
+                <Separator />
+                <TextBlock Text="Project:" />
+                <ComboBox
+                    Width="160"
+                    DockPanel.Dock="Right"
+                    ItemsSource="{Binding ProjectList, NotifyOnSourceUpdated=True}"
+                    SelectedItem="{Binding SelectedProjectModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </ToolBar>
+        </ToolBarTray>
         <DockPanel Grid.Row="1" LastChildFill="False">
-            <Button DockPanel.Dock="Left" ToolTip="Include Editor" Style="{StaticResource IconButton}" x:Name="btnContentIncludes" Click="ViewSelect_Clicked">
-                <Image Source="{StaticResource ico_Includes}" Style="{StaticResource IconButtonImage}" />
-            </Button>
-            <Button DockPanel.Dock="Left" ToolTip="Resources Editor" Style="{StaticResource IconButton}" x:Name="btnReferenceIncludes" Click="ViewSelect_Clicked">
-                <Image Source="{StaticResource ico_Resources}" Style="{StaticResource IconButtonImage}" />
-            </Button>
+            <ToolBarTray Height="30" DockPanel.Dock="Left">
+                <ToolBar>
+                    <Button
+                        x:Name="btnContentIncludes"
+                        Click="ViewSelect_Clicked"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Include Editor">
+                        <Image Source="{StaticResource ico_Includes}" />
+                    </Button>
+                    <Button
+                        x:Name="btnReferenceIncludes"
+                        Click="ViewSelect_Clicked"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Resources Editor">
+                        <Image Source="{StaticResource ico_Resources}" />
+                    </Button>
+                    <Separator />
+                    <Button
+                        Click="LaunchVs_Click"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Launch in Visual Studio">
+                        <Image Source="{StaticResource ico_VisualStudio}" />
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
         </DockPanel>
     </Grid>
 </UserControl>

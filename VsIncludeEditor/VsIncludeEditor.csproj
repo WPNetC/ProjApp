@@ -69,6 +69,11 @@
       <DependentUpon>ReferenceEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\ReferenceEditor\ReferenceEditorViewModel.cs" />
+    <Compile Include="Modules\SettingsEditor\SettingsEditorView.xaml.cs">
+      <DependentUpon>SettingsEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SettingsEditor\SettingsEditorViewModel.cs" />
+    <Compile Include="Modules\TopPanel\Converters.cs" />
     <Compile Include="Modules\TreeView\FileNode.cs" />
     <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
       <DependentUpon>IncludeEditorView.xaml</DependentUpon>
@@ -110,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\ReferenceEditor\ReferenceEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\SettingsEditor\SettingsEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\vs.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\star.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

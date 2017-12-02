@@ -1,19 +1,19 @@
 ﻿<Application
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:VsIncludeEditor"
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 mc:Ignorable="d"
-			 x:Class="VsIncludeEditor.App"
-             StartupUri="MainWindow.xaml">
+    x:Class="VsIncludeEditor.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VsIncludeEditor"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    StartupUri="MainWindow.xaml"
+    mc:Ignorable="d">
     <Application.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ResourceDictionarys/Images.xaml"/>
-                <ResourceDictionary Source="ResourceDictionarys/Styles.xaml"/>
-                <ResourceDictionary Source="ResourceDictionarys/ViewModels.xaml"/>
+                <ResourceDictionary Source="ResourceDictionarys/Images.xaml" />
+                <ResourceDictionary Source="ResourceDictionarys/Styles.xaml" />
+                <ResourceDictionary Source="ResourceDictionarys/ViewModels.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
