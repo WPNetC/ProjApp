@@ -63,7 +63,7 @@ namespace VsIncludeEditor
 
         private void SelectedProjectChanged()
         {
-            if (SelectedProject.Equals(default(SolutionModel)))
+            if (SelectedProject is null)
                 return;
 
             if (CenterPanelControl is IncludeEditorView)

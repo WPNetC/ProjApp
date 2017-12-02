@@ -72,7 +72,6 @@
     <Compile Include="Modules\SettingsEditor\SettingsEditorView.xaml.cs">
       <DependentUpon>SettingsEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\SettingsEditor\SettingsEditorViewModel.cs" />
     <Compile Include="Modules\TopPanel\Converters.cs" />
     <Compile Include="Modules\TreeView\FileNode.cs" />
     <Compile Include="Modules\IncludeEditor\IncludeEditorView.xaml.cs">
@@ -190,9 +189,6 @@
     <Resource Include="Resources\Icons\if_Upload_132671.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ResourceDictionarys\if_Address_book_132733.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Icons\if_Address_book_132733.ico" />
     <Resource Include="Resources\Icons\if_Component_132638.ico" />
     <Resource Include="Resources\Icons\if_Create_132699.ico" />
@@ -208,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\star.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\settings.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\vscode.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

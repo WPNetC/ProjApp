@@ -9,7 +9,9 @@
     <BitmapImage x:Key="ico_Resources" UriSource="/VsIncludeEditor;component/Resources/Icons/if_Component_132638.ico" />
     <BitmapImage x:Key="ico_OpenProj" UriSource="/VsIncludeEditor;component/Resources/Icons/if_List_132709.ico" />
     <BitmapImage x:Key="ico_VisualStudio" UriSource="/VsIncludeEditor;component/Resources/Icons/vs.ico" />
+    <BitmapImage x:Key="ico_VisualStudioCode" UriSource="/VsIncludeEditor;component/Resources/Icons/vscode.ico" />
     <BitmapImage x:Key="ico_Save" UriSource="/VsIncludeEditor;component/Resources/Icons/if_Save_132607.ico" />
     <BitmapImage x:Key="ico_Star" UriSource="/VsIncludeEditor;component/Resources/Icons/star.ico" />
+    <BitmapImage x:Key="ico_Settings" UriSource="/VsIncludeEditor;component/Resources/Icons/settings.ico" />
 
 </ResourceDictionary>

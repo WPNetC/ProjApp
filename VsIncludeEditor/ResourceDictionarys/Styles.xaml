@@ -19,8 +19,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style x:Key="ToolBarIcon" TargetType="Image">
-        <Setter Property="Height" Value="14" />
-        <Setter Property="Margin" Value="1" />
+        <Setter Property="Height" Value="17" />
+        <Setter Property="Margin" Value="1,0" />
     </Style>
     <Style x:Key="ToolBarText" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />

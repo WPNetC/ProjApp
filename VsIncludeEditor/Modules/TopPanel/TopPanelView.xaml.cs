@@ -107,6 +107,9 @@ namespace VsIncludeEditor.Modules.TopPanel
                 case "btnReferenceIncludes":
                     CurrentControl = new ReferenceEditor.ReferenceEditorView();
                     break;
+                case "btnSettings":
+                    CurrentControl = new SettingsEditor.SettingsEditorView();
+                    break;
                 default:
                     break;
             }
@@ -114,13 +117,30 @@ namespace VsIncludeEditor.Modules.TopPanel
 
         private void LaunchVs_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentSolution is null)
+            var btn = sender as Button;
+            if (btn is null || CurrentSolution is null || string.IsNullOrEmpty(Properties.Settings.Default.VSPath))
                 return;
+
+            string fileName = null;
+            string prog = null;
+            switch (btn.Name)
+            {
+                case "btnLaunchVS":
+                    prog = Properties.Settings.Default.VSPath;
+                    fileName = CurrentSolution.FileInfo.FullName;
+                    break;
+                case "btnLaunchCodeEditor":
+                    prog = Properties.Settings.Default.CodeEditorPath;
+                    fileName = CurrentSolution.FileInfo.DirectoryName;
+                    break;
+                default:
+                    return;
+            }
 
             var info = new ProcessStartInfo
             {
-                Arguments = CurrentSolution.FileInfo.FullName,
-                FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe"
+                Arguments = fileName,
+                FileName = prog
             };
 
             int exitCode;

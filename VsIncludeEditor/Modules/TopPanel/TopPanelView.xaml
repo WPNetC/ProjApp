@@ -55,6 +55,16 @@
                     ItemsSource="{Binding ProjectList, NotifyOnSourceUpdated=True}"
                     SelectedItem="{Binding SelectedProjectModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </ToolBar>
+            <ToolBar>
+                <Button
+                    x:Name="btnSettings"
+                    Click="ViewSelect_Clicked"
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="Settings">
+                    <Image Source="{StaticResource ico_Settings}" />
+                </Button>
+            </ToolBar>
         </ToolBarTray>
         <DockPanel Grid.Row="1" LastChildFill="False">
             <ToolBarTray Height="30" DockPanel.Dock="Left">
@@ -79,12 +89,22 @@
                     </Button>
                     <Separator />
                     <Button
+                        x:Name="btnLaunchVS"
                         Click="LaunchVs_Click"
                         DockPanel.Dock="Left"
                         IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
                         Style="{StaticResource IconButton}"
                         ToolTip="Launch in Visual Studio">
                         <Image Source="{StaticResource ico_VisualStudio}" />
+                    </Button>
+                    <Button
+                        x:Name="btnLaunchCodeEditor"
+                        Click="LaunchVs_Click"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Open in code editor">
+                        <Image Source="{StaticResource ico_VisualStudioCode}" />
                     </Button>
                 </ToolBar>
             </ToolBarTray>
