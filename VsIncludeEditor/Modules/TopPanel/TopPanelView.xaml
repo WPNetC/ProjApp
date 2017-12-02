@@ -15,6 +15,10 @@
             <Button DockPanel.Dock="Left" ToolTip="Open" Style="{StaticResource IconButton}" Click="FileOpen_Click">
                 <Image Source="{StaticResource ico_OpenProj}" Style="{StaticResource IconButtonImage}" />
             </Button>
+            <Button DockPanel.Dock="Left" ToolTip="Launch in Visual Studio" Style="{StaticResource IconButton}" Click="LaunchVs_Click">
+                <Image Source="{StaticResource ico_VisualStudio}" Style="{StaticResource IconButtonImage}" />
+            </Button>
+            <ComboBox DockPanel.Dock="Left" x:Name="cmbProjects" ItemsSource="{Binding ProjectList, NotifyOnSourceUpdated=True}" SelectedItem="{Binding SelectedProjectModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="160" />
         </DockPanel>
         <DockPanel Grid.Row="1" LastChildFill="False">
             <Button DockPanel.Dock="Left" ToolTip="Include Editor" Style="{StaticResource IconButton}" x:Name="btnContentIncludes" Click="ViewSelect_Clicked">

@@ -60,6 +60,8 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\IInclude.cs" />
+    <Compile Include="Models\SolutionModel.cs" />
+    <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
     <Compile Include="Modules\IncludeEditor\Commands.cs" />
     <Compile Include="Modules\IncludeEditor\Converters.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Services\IContentParserService.cs" />
     <Compile Include="Services\ProjParserService.cs" />
     <Compile Include="Services\ProjWriterService.cs" />
+    <Compile Include="Services\SlnParserService.cs" />
     <Compile Include="Services\WebProjectParser.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
@@ -181,7 +184,6 @@
     <Resource Include="ResourceDictionarys\if_Address_book_132733.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\Hopstarter-Sleek-Xp-Basic-Document.ico" />
     <Resource Include="Resources\Icons\if_Address_book_132733.ico" />
     <Resource Include="Resources\Icons\if_Component_132638.ico" />
     <Resource Include="Resources\Icons\if_Create_132699.ico" />
@@ -191,7 +193,9 @@
     <Resource Include="Resources\Icons\if_List_132709.ico" />
     <Resource Include="Resources\Icons\if_Save_132607.ico" />
     <Resource Include="Resources\Icons\if_Yes_132693.ico" />
-    <Resource Include="Resources\Icons\Oxygen-Icons.org-Oxygen-Places-folder-red.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\vs.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

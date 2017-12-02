@@ -31,6 +31,7 @@ namespace VsIncludeEditor.Models
                 }
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public static bool operator == (ReferenceModel a, ReferenceModel b)
         {

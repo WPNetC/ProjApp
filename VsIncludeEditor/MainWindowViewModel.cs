@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using VsIncludeEditor.Models;
 using VsIncludeEditor.Modules.IncludeEditor;
 using VsIncludeEditor.Modules.ReferenceEditor;
 using VsIncludeEditor.Modules.TopPanel;
@@ -16,7 +17,8 @@ namespace VsIncludeEditor
     public class MainWindowViewModel : ViewModelBase
     {
         private UserControl _centerPanelControl;
-        private FileInfo _selectedProject;
+        private ProjectModel _selectedProject;
+        private SolutionModel _selectedSolution;
 
         public UserControl CenterPanelControl
         {
@@ -39,22 +41,29 @@ namespace VsIncludeEditor
             }
         }
 
-        public FileInfo SelectedProject
+        public ProjectModel SelectedProject
         {
             get { return _selectedProject; }
             set
             {
                 _selectedProject = value;
                 OnChanged();
-
-                if (value != null)
-                    SelectedProjectChanged();
+                SelectedProjectChanged();
+            }
+        }
+        public SolutionModel SelectedSolution
+        {
+            get { return _selectedSolution; }
+            set
+            {
+                _selectedSolution = value;
+                OnChanged();
             }
         }
 
         private void SelectedProjectChanged()
         {
-            if (SelectedProject == null)
+            if (SelectedProject.Equals(default(SolutionModel)))
                 return;
 
             if (CenterPanelControl is IncludeEditorView)
@@ -66,12 +75,12 @@ namespace VsIncludeEditor
 
                 var parser = new ProjParserService();
 
-                var tree = parser.GetContentAsTree(SelectedProject.FullName);
+                var tree = parser.GetContentAsTree(SelectedProject.FileInfo.FullName);
                 if (tree == null)
                     return;
 
                 vm.SetTree(tree);
-                vm.SetCurrentCsProjFile(SelectedProject);
+                vm.SetCurrentCsProjFile(SelectedProject.FileInfo);
 
             }
             else if (CenterPanelControl is ReferenceEditorView)
@@ -82,7 +91,7 @@ namespace VsIncludeEditor
 
                 var parser = new ProjParserService();
 
-                var refs = parser.GetReferences(SelectedProject.FullName);
+                var refs = parser.GetReferences(SelectedProject.FileInfo.FullName);
                 if (refs == null)
                     return;
 

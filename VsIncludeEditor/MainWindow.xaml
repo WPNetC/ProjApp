@@ -18,9 +18,12 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
+        
         <tp:TopPanelView x:Name="TopPanelControl" Grid.Row="0"
-                         CurrentProjectFile="{Binding SelectedProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         CurrentControl="{Binding CenterPanelControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         CurrentSolution="{Binding SelectedSolution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         CurrentControl="{Binding CenterPanelControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedProjectModel="{Binding SelectedProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
         <ContentPresenter Grid.Row="1" Name="cntBody" Content="{Binding CenterPanelControl}"/>
         <DockPanel Grid.Row="2" Name="cntFoot">
             
