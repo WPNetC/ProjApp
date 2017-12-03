@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibGit2Sharp;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -14,11 +15,12 @@ namespace VsIncludeEditor.Modules.GitView
     public class GitViewModel : ViewModelBase, IProjectView
     {
         private ObservableCollection<string> _branches;
-        private ObservableCollection<LibGit2Sharp.Commit> _commits;
+        private ObservableCollection<Commit> _commits;
 
         private string _currentBranch;
         private string _gitPath;
         private string _selectedBranch;
+        private Commit _selectedCommit;
 
 
 
@@ -86,7 +88,7 @@ namespace VsIncludeEditor.Modules.GitView
             }
         }
 
-        public ObservableCollection<LibGit2Sharp.Commit> Commits
+        public ObservableCollection<Commit> Commits
         {
             get
             {
@@ -97,6 +99,22 @@ namespace VsIncludeEditor.Modules.GitView
                 if (value != _commits)
                 {
                     _commits = value;
+                    OnChanged();
+                }
+            }
+        }
+
+        public Commit SelectedCommit
+        {
+            get
+            {
+                return _selectedCommit;
+            }
+            set
+            {
+                if (value != _selectedCommit)
+                {
+                    _selectedCommit = value;
                     OnChanged();
                 }
             }
@@ -114,7 +132,7 @@ namespace VsIncludeEditor.Modules.GitView
                 return;
 
             Branches = new ObservableCollection<string>(GitService.GetBranchNames(CurrentGitPath));
-            Commits = new ObservableCollection<LibGit2Sharp.Commit>(GitService.GetCommits(CurrentGitPath));
+            Commits = new ObservableCollection<Commit>(GitService.GetCommits(CurrentGitPath));
             CurrentBranch = GitService.GetCurrentBranchName(CurrentGitPath);
         }
     }

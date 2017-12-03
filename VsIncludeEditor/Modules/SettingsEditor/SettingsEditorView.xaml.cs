@@ -27,7 +27,8 @@ namespace VsIncludeEditor.Modules.SettingsEditor
             Control.DataContext = this;
 
             CodeEditorPath = Properties.Settings.Default.CodeEditorPath;
-            VSPath = Properties.Settings.Default.VSPath; ;
+            VSPath = Properties.Settings.Default.VSPath;
+            GitGUIPath = Properties.Settings.Default.GitGUIPath;
         }
 
 
@@ -99,7 +100,7 @@ namespace VsIncludeEditor.Modules.SettingsEditor
             get
             {
                 var val = (string)GetValue(GitGUIPathProperty);
-                if (string.IsNullOrEmpty(val))
+                if (string.IsNullOrEmpty(val?.Trim()))
                 {
                     val = Properties.Settings.Default.GitGUIPath;
                     if (!string.IsNullOrEmpty(val))

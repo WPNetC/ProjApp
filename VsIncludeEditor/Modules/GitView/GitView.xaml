@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:VsIncludeEditor.Modules.GitView"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
-    d:DesignWidth="600"
+    d:DesignWidth="700"
     mc:Ignorable="d">
     <UserControl.DataContext>
         <local:GitViewModel x:Name="vm" />
@@ -17,21 +17,31 @@
             <RowDefinition Height="42" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource TextBlock_VertCentered}" TargetType="TextBlock" />
+        </Grid.Resources>
         <DockPanel Grid.Row="0" LastChildFill="False">
             <Button
                 Margin="5"
                 Content="GitSquid"
                 DockPanel.Dock="Left" />
+
             <StackPanel
+                Margin="5"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Orientation="Horizontal">
+                <TextBlock Text="Selected Branch:" />
+                <TextBlock Text="{Binding SelectedBranch, FallbackValue=None, TargetNullValue=None}" />
+            </StackPanel>
+            <Separator Margin="5,0" DockPanel.Dock="Right" />
+            <StackPanel
+                Margin="5"
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
                 Orientation="Horizontal">
                 <TextBlock Style="{StaticResource TextBlock_VertCentered}" Text="Current Branch:" />
-                <TextBlock
-                    Margin="5,0"
-                    Style="{StaticResource TextBlock_VertCentered}"
-                    Text="{Binding CurrentBranch, FallbackValue=None, TargetNullValue=None}" />
+                <TextBlock Style="{StaticResource TextBlock_VertCentered}" Text="{Binding CurrentBranch, FallbackValue=None, TargetNullValue=None}" />
             </StackPanel>
         </DockPanel>
 
@@ -42,25 +52,44 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <ListBox ItemsSource="{Binding Branches, NotifyOnSourceUpdated=True}" SelectedItem="{Binding SelectedBranch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-            <DockPanel Grid.Column="1" LastChildFill="False">
-                <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedBranch}"/>
-                <ListBox ItemsSource="{Binding Commits, Mode=OneWay, NotifyOnSourceUpdated=True}">
+            <GroupBox Grid.Column="0" Header="Branches">
+                <ListBox ItemsSource="{Binding Branches, NotifyOnSourceUpdated=True}" SelectedItem="{Binding SelectedBranch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding MessageShort}"/>
+                            <TextBlock Text="{Binding}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </DockPanel>
-            
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="Commits">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <TextBlock Text="Selected Commit: " />
+                        <TextBlock Text="{Binding SelectedCommit.Sha, FallbackValue=None, TargetNullValue=None}" />
+                    </StackPanel>
+                    <ListBox
+                        Margin="5"
+                        DockPanel.Dock="Top"
+                        ItemsSource="{Binding Commits, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                        SelectedItem="{Binding SelectedCommit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Expander>
+                                    <Expander.Header>
+                                        <TextBlock Text="{Binding MessageShort}" />
+                                    </Expander.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Author}" />
+                                        <TextBlock Text="{Binding Id}" />
+                                        <TextBlock Text="{Binding Message}" />
+                                    </StackPanel>
+                                </Expander>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </GroupBox>
             <DockPanel Grid.Column="2" LastChildFill="False">
                 <GroupBox DockPanel.Dock="Top" Header="Tools">
                     <Expander Header="Move Commits To New Branch">
