@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\LibGit2Sharp.NativeBinaries.1.0.185\build\LibGit2Sharp.NativeBinaries.props" Condition="Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.185\build\LibGit2Sharp.NativeBinaries.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibGit2Sharp, Version=0.24.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGit2Sharp.0.24.0\lib\net40\LibGit2Sharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -57,12 +63,17 @@
     </ApplicationDefinition>
     <Compile Include="BaseConverter.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Interfaces\IProjectView.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\IInclude.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\ReferenceModel.cs" />
+    <Compile Include="Modules\GitView\GitView.xaml.cs">
+      <DependentUpon>GitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\GitView\GitViewModel.cs" />
     <Compile Include="Modules\IncludeEditor\Commands.cs" />
     <Compile Include="Modules\IncludeEditor\Converters.cs" />
     <Compile Include="Modules\ReferenceEditor\ReferenceEditorView.xaml.cs">
@@ -91,6 +102,7 @@
       <DependentUpon>TreeViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ExeParser.cs" />
+    <Compile Include="Services\GitService.cs" />
     <Compile Include="Services\IContentParserService.cs" />
     <Compile Include="Services\ProjParserService.cs" />
     <Compile Include="Services\ProjWriterService.cs" />
@@ -109,6 +121,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\GitView\GitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\IncludeEditor\IncludeEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +184,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -211,5 +228,14 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\vscode.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Git-Icon-Black.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.185\build\LibGit2Sharp.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp.NativeBinaries.1.0.185\build\LibGit2Sharp.NativeBinaries.props'))" />
+  </Target>
 </Project>

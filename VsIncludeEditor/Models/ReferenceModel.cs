@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,8 @@ namespace VsIncludeEditor.Models
     public struct ReferenceModel: IInclude, IEquatable<ReferenceModel>
     {
         public string Include { get; set; }
+        public Dictionary<string, string> Properties { get; set; }
+
         public string SpecificVersion { get; set; }
         public string HintPath { get; set; }
         public string RequiredTargetFramework { get; set; }
@@ -31,6 +34,7 @@ namespace VsIncludeEditor.Models
                 }
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public static bool operator == (ReferenceModel a, ReferenceModel b)

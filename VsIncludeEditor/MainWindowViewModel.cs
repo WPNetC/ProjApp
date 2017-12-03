@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using VsIncludeEditor.Interfaces;
 using VsIncludeEditor.Models;
 using VsIncludeEditor.Modules.IncludeEditor;
 using VsIncludeEditor.Modules.ReferenceEditor;
@@ -66,36 +67,10 @@ namespace VsIncludeEditor
             if (SelectedProject is null)
                 return;
 
-            if (CenterPanelControl is IncludeEditorView)
+            if (CenterPanelControl?.DataContext is IProjectView)
             {
-                var vm = CenterPanelControl.DataContext as IncludeEditorViewModel;
-
-                if (vm == null)
-                    return;
-
-                var parser = new ProjParserService();
-
-                var tree = parser.GetContentAsTree(SelectedProject.FileInfo.FullName);
-                if (tree == null)
-                    return;
-
-                vm.SetTree(tree);
-                vm.SetCurrentCsProjFile(SelectedProject.FileInfo);
-
-            }
-            else if (CenterPanelControl is ReferenceEditorView)
-            {
-                var vm = CenterPanelControl.DataContext as ReferenceEditorViewModel;
-                if (vm == null)
-                    return;
-
-                var parser = new ProjParserService();
-
-                var refs = parser.GetReferences(SelectedProject.FileInfo.FullName);
-                if (refs == null)
-                    return;
-
-                vm.SetReferences(refs);
+                var vm = CenterPanelControl.DataContext as IProjectView;
+                vm.SetProject(SelectedProject.FileInfo);
             }
         }
 

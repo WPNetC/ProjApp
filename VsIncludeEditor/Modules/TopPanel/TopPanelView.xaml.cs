@@ -98,7 +98,7 @@ namespace VsIncludeEditor.Modules.TopPanel
             var btn = sender as Button;
             if (btn == null)
                 return;
-
+            
             switch (btn.Name)
             {
                 case "btnContentIncludes":
@@ -109,6 +109,9 @@ namespace VsIncludeEditor.Modules.TopPanel
                     break;
                 case "btnSettings":
                     CurrentControl = new SettingsEditor.SettingsEditorView();
+                    break;
+                case "btnGitView":
+                    CurrentControl = new GitView.GitView();
                     break;
                 default:
                     break;

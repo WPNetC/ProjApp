@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsIncludeEditor.Interfaces;
 using VsIncludeEditor.Models;
+using VsIncludeEditor.Services;
 
 namespace VsIncludeEditor.Modules.ReferenceEditor
 {
-    public class ReferenceEditorViewModel : ViewModelBase
+    public class ReferenceEditorViewModel : ViewModelBase, IProjectView
     {
         private ObservableCollection<ReferenceModel> _references;
         private ReferenceModel _selectedReference;
@@ -43,6 +46,17 @@ namespace VsIncludeEditor.Modules.ReferenceEditor
                     OnChanged();
                 }
             }
+        }
+
+        public void SetProject(FileInfo fileInfo)
+        {
+            var parser = new ProjParserService();
+
+            var refs = parser.GetReferences(fileInfo.FullName);
+            if (refs == null)
+                return;
+
+            SetReferences(refs);
         }
 
         public void SetReferences(IEnumerable<ReferenceModel> models)

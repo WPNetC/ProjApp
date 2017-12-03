@@ -1,20 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace VsIncludeEditor.Models
 {
     public struct ContentModel : IInclude
     {
+        public Dictionary<string, string> Properties { get; set; }
 
-        public string AutoGen { get; set; }
-        public string DesignTime { get; set; }
-        public string DesignTimeSharedInput { get; set; }
-        public string Generator { get; set; }
         public string Include { get; set; }
-        public string LastGenOutput { get; set; }
-        public string Link { get; set; }
-        public string SubType { get; set; }
-        public string DependentUpon { get; set; }
-
         private bool _isSelected;
         public bool IsSelected {
             get { return _isSelected; }

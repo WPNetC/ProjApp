@@ -11,6 +11,7 @@
     <BitmapImage x:Key="ico_VisualStudio" UriSource="/VsIncludeEditor;component/Resources/Icons/vs.ico" />
     <BitmapImage x:Key="ico_VisualStudioCode" UriSource="/VsIncludeEditor;component/Resources/Icons/vscode.ico" />
     <BitmapImage x:Key="ico_Save" UriSource="/VsIncludeEditor;component/Resources/Icons/if_Save_132607.ico" />
+    <BitmapImage x:Key="ico_Git" UriSource="/VsIncludeEditor;component/Resources/Icons/Git-Icon-Black.ico" />
     <BitmapImage x:Key="ico_Star" UriSource="/VsIncludeEditor;component/Resources/Icons/star.ico" />
     <BitmapImage x:Key="ico_Settings" UriSource="/VsIncludeEditor;component/Resources/Icons/settings.ico" />
 

@@ -9,13 +9,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using VsIncludeEditor.Interfaces;
 using VsIncludeEditor.Models;
 using VsIncludeEditor.Modules.TreeView;
 using VsIncludeEditor.Services;
 
 namespace VsIncludeEditor.Modules.IncludeEditor
 {
-    public class IncludeEditorViewModel : ViewModelBase
+    public class IncludeEditorViewModel : ViewModelBase, IProjectView
     {
         private readonly object _imgLock = new object();
         private ObservableCollection<ContentModel> _includes;
@@ -255,6 +256,18 @@ namespace VsIncludeEditor.Modules.IncludeEditor
             }
 
             base.Dispose(disposing);
+        }
+
+        public void SetProject(FileInfo fileInfo)
+        {
+            var parser = new ProjParserService();
+
+            var tree = parser.GetContentAsTree(fileInfo.FullName);
+            if (tree == null)
+                return;
+
+            SetTree(tree);
+            SetCurrentCsProjFile(fileInfo);
         }
     }
 }

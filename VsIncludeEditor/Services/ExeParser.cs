@@ -30,31 +30,16 @@ namespace VsIncludeEditor.Services
             {
                 var refObj = new ContentModel
                 {
-                    Include = item.Attributes[CSPROJ_INCLUDE]?.Value
+                    Include = item.Attributes[CSPROJ_INCLUDE]?.Value,
+                    Properties = new Dictionary<string, string>()
                 };
 
                 if (item.HasChildNodes)
                 {
                     foreach (XmlNode property in item.ChildNodes)
                     {
-                        if (property.Name == "SubType")
-                            refObj.SubType = property.InnerText;
-                        else if (property.Name == "AutoGen")
-                            refObj.AutoGen = property.InnerText;
-                        else if (property.Name == "DependentUpon")
-                            refObj.DependentUpon = property.InnerText;
-                        else if (property.Name == "DesignTime")
-                            refObj.DesignTime = property.InnerText;
-                        else if (property.Name == "DesignTimeSharedInput")
-                            refObj.DesignTimeSharedInput = property.InnerText;
-                        else if (property.Name == "LastGenOutput")
-                            refObj.LastGenOutput = property.InnerText;
-                        else if (property.Name == "Generator")
-                            refObj.Generator = property.InnerText;
-                        else if (property.Name == "Link")
-                            refObj.Link = property.InnerText;
-                        else if (property.Name != "#text")
-                            throw new InvalidOperationException($"Invalid type: {property.Name}");
+                        if (!refObj.Properties.ContainsKey(property.Name))
+                            refObj.Properties.Add(property.Name, property.InnerText);
                     }
                 }
                 yield return refObj;

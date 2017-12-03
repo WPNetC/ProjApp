@@ -87,6 +87,15 @@
                         ToolTip="Resources Editor">
                         <Image Source="{StaticResource ico_Resources}" />
                     </Button>
+                    <Button
+                        x:Name="btnGitView"
+                        Click="ViewSelect_Clicked"
+                        DockPanel.Dock="Left"
+                        IsEnabled="{Binding CurrentSolution, Converter={local:ObjectIsNullToBoolConverter}}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Git View">
+                        <Image Source="{StaticResource ico_Git}" />
+                    </Button>
                     <Separator />
                     <Button
                         x:Name="btnLaunchVS"
