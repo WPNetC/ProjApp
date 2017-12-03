@@ -34,6 +34,7 @@
                     Click="SelectFile"
                     Content="Find" />
             </Grid>
+
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="130" />
@@ -52,6 +53,30 @@
                     Text="{Binding CodeEditorPath}" />
                 <Button
                     x:Name="btnCodeEditorPath"
+                    Grid.Column="2"
+                    Margin="5,2"
+                    Click="SelectFile"
+                    Content="Find" />
+            </Grid>
+
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Text="Git GUI Path" />
+                <TextBox
+                    x:Name="txtGitGUIPath"
+                    Grid.Column="1"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding GitGUIPath}" />
+                <Button
+                    x:Name="btnGitGUIPath"
                     Grid.Column="2"
                     Margin="5,2"
                     Click="SelectFile"

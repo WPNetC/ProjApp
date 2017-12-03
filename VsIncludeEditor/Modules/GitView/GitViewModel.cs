@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using VsIncludeEditor.Interfaces;
 using VsIncludeEditor.Services;
 
@@ -13,19 +14,25 @@ namespace VsIncludeEditor.Modules.GitView
     public class GitViewModel : ViewModelBase, IProjectView
     {
         private ObservableCollection<string> _branches;
-        private string _currentBranch;
+        private ObservableCollection<LibGit2Sharp.Commit> _commits;
 
-        public ObservableCollection<string> Branches
+        private string _currentBranch;
+        private string _gitPath;
+        private string _selectedBranch;
+
+
+
+        public string CurrentGitPath
         {
             get
             {
-                return _branches ?? (_branches = new ObservableCollection<string>());
+                return _gitPath;
             }
             set
             {
-                if (value != _branches)
+                if (value != _gitPath)
                 {
-                    _branches = value;
+                    _gitPath = value;
                     OnChanged();
                 }
             }
@@ -46,6 +53,54 @@ namespace VsIncludeEditor.Modules.GitView
                 }
             }
         }
+        
+        public ObservableCollection<string> Branches
+        {
+            get
+            {
+                return _branches ?? (_branches = new ObservableCollection<string>());
+            }
+            set
+            {
+                if (value != _branches)
+                {
+                    _branches = value;
+                    OnChanged();
+                }
+            }
+        }
+        
+        public string SelectedBranch
+        {
+            get
+            {
+                return _selectedBranch;
+            }
+            set
+            {
+                if (value != _selectedBranch)
+                {
+                    _selectedBranch = value;
+                    OnChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<LibGit2Sharp.Commit> Commits
+        {
+            get
+            {
+                return _commits;
+            }
+            set
+            {
+                if (value != _commits)
+                {
+                    _commits = value;
+                    OnChanged();
+                }
+            }
+        }
 
 
 
@@ -54,8 +109,13 @@ namespace VsIncludeEditor.Modules.GitView
             if (fileInfo == null)
                 return;
 
-            Branches = new ObservableCollection<string>(GitService.GetBranchNames(fileInfo));
-            CurrentBranch = GitService.GetCurrentBranchName(fileInfo.DirectoryName);
+            CurrentGitPath = GitService.GetGitDirectory(fileInfo.FullName)?.FullName;
+            if (string.IsNullOrEmpty(CurrentGitPath?.Trim()))
+                return;
+
+            Branches = new ObservableCollection<string>(GitService.GetBranchNames(CurrentGitPath));
+            Commits = new ObservableCollection<LibGit2Sharp.Commit>(GitService.GetCommits(CurrentGitPath));
+            CurrentBranch = GitService.GetCurrentBranchName(CurrentGitPath);
         }
     }
 }

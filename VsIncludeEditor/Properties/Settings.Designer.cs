@@ -46,5 +46,17 @@ namespace VsIncludeEditor.Properties {
                 this["CodeEditorPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GitGUIPath {
+            get {
+                return ((string)(this["GitGUIPath"]));
+            }
+            set {
+                this["GitGUIPath"] = value;
+            }
+        }
     }
 }

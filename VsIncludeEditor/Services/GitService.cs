@@ -1,5 +1,7 @@
 ﻿using LibGit2Sharp;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -33,7 +35,7 @@ namespace VsIncludeEditor.Services
 
         }
 
-        private static DirectoryInfo GetGitDirectory(string path)
+        public static DirectoryInfo GetGitDirectory(string path)
         {
             var dInf = new DirectoryInfo(path);
 
@@ -79,6 +81,70 @@ namespace VsIncludeEditor.Services
             {
                 return repo.Head.FriendlyName;
             }
+        }
+
+        public static Commit[] GetCommits(string path)
+        {
+            var dInf = GetGitDirectory(path);
+
+            if (dInf == null)
+                return null;
+            var repo = new Repository(dInf.FullName);
+            try
+            {
+                return repo.Head.Commits.ToArray();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public static bool MoveCommitsToNewBranch(string path, string newBranchName, bool rollbackAll, int rollbackAmount = 0, bool deleteBranch = false)
+        {
+            var dInf = GetGitDirectory(path);
+
+            if (dInf == null)
+                return false;
+
+            try
+            {
+                using (var repo = new Repository(dInf.FullName))
+                {
+                    var temp = repo.CreateBranch(newBranchName);
+
+                    if (rollbackAll || rollbackAmount > 0)
+                    {
+                        var commits = repo.Head.Commits.ToArray();
+                        Commit commit;
+                        if (rollbackAll || rollbackAmount > commits.Length)
+                        {
+                            commit = commits.LastOrDefault();
+                        }
+                        else
+                        {
+                            commit = commits[rollbackAmount];
+                        }
+                        repo.Reset(ResetMode.Hard, commit);
+                    }
+                    else
+                    {
+                        repo.Reset(ResetMode.Hard);
+                    }
+
+                    if (!deleteBranch)
+                        LibGit2Sharp.Commands.Checkout(repo, temp);
+                    else repo.Branches.Remove(temp);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
     }
 }

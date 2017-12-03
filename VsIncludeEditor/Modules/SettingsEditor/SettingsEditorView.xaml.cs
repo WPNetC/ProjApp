@@ -93,8 +93,37 @@ namespace VsIncludeEditor.Modules.SettingsEditor
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CodeEditorPathProperty =
             DependencyProperty.Register("CodeEditorPath", typeof(string), typeof(SettingsEditorView), new PropertyMetadata(null));
+        
+        public string GitGUIPath
+        {
+            get
+            {
+                var val = (string)GetValue(GitGUIPathProperty);
+                if (string.IsNullOrEmpty(val))
+                {
+                    val = Properties.Settings.Default.GitGUIPath;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        SetValue(GitGUIPathProperty, val);
+                    }
+                }
 
+                return val;
+            }
+            set
+            {
+                SetValue(GitGUIPathProperty, value);
+                if (File.Exists(value))
+                {
+                    Properties.Settings.Default.GitGUIPath = value;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
 
+        // Using a DependencyProperty as the backing store for GitGUIPAth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GitGUIPathProperty =
+            DependencyProperty.Register("GitGUIPath", typeof(string), typeof(SettingsEditorView), new PropertyMetadata(null));
 
 
         private void SelectFile(object sender, RoutedEventArgs e)
@@ -140,6 +169,9 @@ namespace VsIncludeEditor.Modules.SettingsEditor
                     break;
                 case "btnVSPath":
                     VSPath = path;
+                    break;
+                case "btnGitGUIPath":
+                    GitGUIPath = path;
                     break;
                 default:
                     break;
