@@ -35,6 +35,27 @@ namespace VsIncludeEditor.Services
 
         }
 
+        public static IEnumerable<Branch> GetBranches(string path)
+        {
+            if (!Directory.Exists(path))
+                yield break;
+
+            var dInf = GetGitDirectory(path);
+
+            if (dInf == null)
+                yield break;
+
+            using (var repo = new Repository(dInf.FullName))
+            {
+                var branches = repo.Branches;
+                foreach (var branch in branches)
+                {
+                    yield return branch;
+                }
+            }
+
+        }
+
         public static DirectoryInfo GetGitDirectory(string path)
         {
             var dInf = new DirectoryInfo(path);
@@ -145,6 +166,79 @@ namespace VsIncludeEditor.Services
                 return false;
             }
             return true;
+        }
+
+        public static bool CheckoutBranch(string path, Branch branch)
+        {
+            var dInf = GetGitDirectory(path);
+
+            if (dInf != null)
+            {
+                var repo = new Repository(dInf.FullName);
+                var repoDrive = dInf.FullName.Split(':')[0];
+                try
+                {
+                    var pInf = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
+
+
+                    using (var proc = new Process { StartInfo = pInf })
+                    {
+                        proc.Start();
+
+                        proc.StandardInput.WriteLine($"{repoDrive}:");
+                        proc.StandardInput.Flush();
+
+                        proc.StandardInput.WriteLine($"cd {dInf.Parent.FullName}");
+                        proc.StandardInput.Flush();
+
+                        proc.StandardInput.WriteLine($"git checkout {branch.FriendlyName}");
+                        proc.StandardInput.Flush();
+
+                        proc.StandardInput.Close();
+                        proc.WaitForExit();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    repo.Dispose();
+                }
+            }
+
+            return false;
+        }
+
+        public static bool CheckoutCommit(string path, Commit commit)
+        {
+            var dInf = GetGitDirectory(path);
+
+            if (dInf != null)
+            {
+                var repo = new Repository(dInf.FullName);
+                try
+                {
+                    LibGit2Sharp.Commands.Checkout(repo, commit);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return false;
         }
     }
 }

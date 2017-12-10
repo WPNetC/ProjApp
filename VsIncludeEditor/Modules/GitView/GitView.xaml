@@ -26,14 +26,6 @@
                 Content="GitSquid"
                 DockPanel.Dock="Left" />
 
-            <StackPanel
-                Margin="5"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Right"
-                Orientation="Horizontal">
-                <TextBlock Text="Selected Branch:" />
-                <TextBlock Text="{Binding SelectedBranch, FallbackValue=None, TargetNullValue=None}" />
-            </StackPanel>
             <Separator Margin="5,0" DockPanel.Dock="Right" />
             <StackPanel
                 Margin="5"
@@ -53,13 +45,32 @@
             </Grid.ColumnDefinitions>
 
             <GroupBox Grid.Column="0" Header="Branches">
-                <ListBox ItemsSource="{Binding Branches, NotifyOnSourceUpdated=True}" SelectedItem="{Binding SelectedBranch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <DockPanel LastChildFill="True">
+                    <StackPanel
+                VerticalAlignment="Center"
+                DockPanel.Dock="Top"
+                Orientation="Horizontal">
+                        <TextBlock Text="Selected Branch:" />
+                        <TextBlock Text="{Binding SelectedBranch, FallbackValue=None, TargetNullValue=None}" />
+                    </StackPanel>
+                    <Button
+                        Margin="5,2"
+                        Command="{Binding CmdCheckoutBranch}"
+                        DockPanel.Dock="Top">
+                        <TextBlock Margin="0,2" Text="Checkout" />
+                    </Button>
+                    <ListBox
+                        Margin="5"
+                        DockPanel.Dock="Top"
+                        ItemsSource="{Binding Branches, NotifyOnSourceUpdated=True}"
+                        SelectedItem="{Binding SelectedBranch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
             </GroupBox>
 
             <GroupBox Grid.Column="1" Header="Commits">
@@ -68,6 +79,12 @@
                         <TextBlock Text="Selected Commit: " />
                         <TextBlock Text="{Binding SelectedCommit.Sha, FallbackValue=None, TargetNullValue=None}" />
                     </StackPanel>
+                    <Button
+                        Margin="5,2"
+                        Command="{Binding CmdCheckoutCommit}"
+                        DockPanel.Dock="Top">
+                        <TextBlock Margin="5,2" Text="Checkout" />
+                    </Button>
                     <ListBox
                         Margin="5"
                         DockPanel.Dock="Top"

@@ -38,13 +38,25 @@
                     <Image Source="{StaticResource ico_Save}" />
                 </Button>
                 <Button
+                    x:Name="btnSettings"
+                    Click="ViewSelect_Clicked"
+                    DockPanel.Dock="Left"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="Settings">
+                    <Image Source="{StaticResource ico_Settings}" />
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <Button
                     Click="FileOpen_Click"
                     DockPanel.Dock="Left"
                     Style="{StaticResource IconButton}"
                     ToolTip="Favourites">
                     <Image Source="{StaticResource ico_Star}" />
                 </Button>
-                <Separator />
+                <ComboBox Width="160" DockPanel.Dock="Right" />
+            </ToolBar>
+            <ToolBar>
                 <TextBlock VerticalAlignment="Center" Text="Current Solution:" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSolution.Name, FallbackValue=Empty}" />
                 <Separator />
@@ -54,16 +66,6 @@
                     DockPanel.Dock="Right"
                     ItemsSource="{Binding ProjectList, NotifyOnSourceUpdated=True}"
                     SelectedItem="{Binding SelectedProjectModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </ToolBar>
-            <ToolBar>
-                <Button
-                    x:Name="btnSettings"
-                    Click="ViewSelect_Clicked"
-                    DockPanel.Dock="Left"
-                    Style="{StaticResource IconButton}"
-                    ToolTip="Settings">
-                    <Image Source="{StaticResource ico_Settings}" />
-                </Button>
             </ToolBar>
         </ToolBarTray>
         <DockPanel Grid.Row="1" LastChildFill="False">

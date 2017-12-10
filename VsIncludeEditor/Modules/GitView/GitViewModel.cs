@@ -14,15 +14,15 @@ namespace VsIncludeEditor.Modules.GitView
 {
     public class GitViewModel : ViewModelBase, IProjectView
     {
-        private ObservableCollection<string> _branches;
+        private ObservableCollection<Branch> _branches;
         private ObservableCollection<Commit> _commits;
 
         private string _currentBranch;
         private string _gitPath;
-        private string _selectedBranch;
+        private Branch _selectedBranch;
         private Commit _selectedCommit;
-
-
+        private ICommand _cmdCkecoutBranch;
+        private ICommand _cmdCkecoutCommit;
 
         public string CurrentGitPath
         {
@@ -55,12 +55,12 @@ namespace VsIncludeEditor.Modules.GitView
                 }
             }
         }
-        
-        public ObservableCollection<string> Branches
+
+        public ObservableCollection<Branch> Branches
         {
             get
             {
-                return _branches ?? (_branches = new ObservableCollection<string>());
+                return _branches ?? (_branches = new ObservableCollection<Branch>());
             }
             set
             {
@@ -72,7 +72,7 @@ namespace VsIncludeEditor.Modules.GitView
             }
         }
         
-        public string SelectedBranch
+        public Branch SelectedBranch
         {
             get
             {
@@ -120,8 +120,14 @@ namespace VsIncludeEditor.Modules.GitView
             }
         }
 
+        public ICommand CmdCheckoutBranch => _cmdCkecoutBranch ?? (_cmdCkecoutBranch = new CheckoutBranch(this));
 
+        public ICommand CmdCheckoutCommit => _cmdCkecoutCommit ?? (_cmdCkecoutCommit = new CheckoutCommit(this));
 
+        internal bool CanCheckoutBranch => SelectedBranch != null;
+
+        internal bool CanCheckoutCommit => SelectedCommit != null;
+        
         public void SetProject(FileInfo fileInfo)
         {
             if (fileInfo == null)
@@ -131,9 +137,22 @@ namespace VsIncludeEditor.Modules.GitView
             if (string.IsNullOrEmpty(CurrentGitPath?.Trim()))
                 return;
 
-            Branches = new ObservableCollection<string>(GitService.GetBranchNames(CurrentGitPath));
-            Commits = new ObservableCollection<Commit>(GitService.GetCommits(CurrentGitPath));
+            Branches = new ObservableCollection<Branch>(GitService.GetBranches(CurrentGitPath));
             CurrentBranch = GitService.GetCurrentBranchName(CurrentGitPath);
+            Commits = new ObservableCollection<Commit>(GitService.GetCommits(CurrentGitPath));
         }
+        
+        internal void CheckoutBranch()
+        {
+            GitService.CheckoutBranch(CurrentGitPath, SelectedBranch);
+            CurrentBranch = GitService.GetCurrentBranchName(CurrentGitPath);
+            Commits = new ObservableCollection<Commit>(GitService.GetCommits(CurrentGitPath));
+        }
+
+        internal void CheckoutCommit()
+        {
+            GitService.CheckoutCommit(CurrentGitPath, SelectedCommit);
+        }
+
     }
 }
